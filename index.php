@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="login-container">
-        <img src="logo.png" alt="Logo SENAI" class="senai-logo">
+        <img src="logo_azul.png" alt="Logo SENAI" class="senai-logo">
         <form action="login.php" method="POST">
             <div class="input-group">
                 <label for="username">Usuário:</label>

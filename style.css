@@ -22,7 +22,7 @@ body {
 
 .senai-logo {
     /* MUDANÇAS AQUI */
-    width: 50%; /* Define a largura da imagem como 50% da largura do pai (.login-container) */
+    width: 100%; /* Define a largura da imagem como 50% da largura do pai (.login-container) */
     height: auto; /* Mantém a proporção da imagem */
     display: block; /* Essencial para que margin: auto funcione e para a imagem ocupar sua própria linha */
     margin: 0 auto 30px auto; /* Centraliza horizontalmente (0 nas laterais, auto em cima/baixo) e adiciona margem inferior */
