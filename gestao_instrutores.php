@@ -71,7 +71,7 @@ function formatarData($data)
                 <h2>Lista de Instrutores</h2>
                 <div class="filter-section">
                     <div class="filter-group">
-                        <label for="searchInstrutor">Pesquisar Instrutor (Nome, Área, Competências):</label>
+                        <label for="searchInstrutor">Pesquisar Instrutor:</label>
                         <input type="text" id="searchInstrutor" placeholder="Digite para filtrar..."
                             class="search-input">
                     </div>

@@ -753,6 +753,22 @@ button[type="submit"]:hover {
     /* Padding padrão para desktop */
     min-height: 50px;
 }
+.week-row { /* Ou qualquer seletor para uma linha de dias */
+    display: flex;
+    justify-content: space-around; /* Distribui o espaço uniformemente entre os itens */
+    /* Ou: justify-content: space-between; para que os itens extremos fiquem nas bordas */
+    /* Ou: justify-content: flex-start; com margens ou padding nos itens */
+    flex-wrap: wrap; /* Permite que os itens quebrem para a próxima linha se não houver espaço suficiente */
+    /* Outras propriedades existentes */
+}
+
+.day {
+    flex: 1; /* Permite que cada dia cresça e encolha para ocupar o espaço disponível */
+    min-width: 0; /* Essencial para flex-items não estourarem o contêiner quando o conteúdo é grande */
+    text-align: center;
+    padding: 10px 0;
+    /* Outras propriedades existentes */
+}
 
 /* Reduz o padding e o tamanho da fonte em telas pequenas (smartphones) */
 @media (max-width: 576px) {

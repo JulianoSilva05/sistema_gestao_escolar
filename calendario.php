@@ -11,7 +11,11 @@
         /* Estilos do modal (reutilizados das telas anteriores) */
 
         .calendar-container {
-            /* Mantém o layout do calendário principal */
+            width: 90%;
+            /* Define a largura para 90% da largura do elemento pai (geralmente o <body> ou um contêiner principal) */
+            margin: 0 auto;
+            /* Opcional: Centraliza o contêiner na página se houver espaço sobrando */
+            /* Outras propriedades existentes */
         }
 
         .calendar-header {
@@ -288,7 +292,7 @@
         </div>
     </div>
 
-     <script>
+    <script>
         const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
         const today = new Date();
         let currentMonth = today.getMonth();
@@ -373,7 +377,7 @@
                 description: 'Natal'
             }
         ];
-        
+
         let aulasData = [];
 
         function populateInstrutorFilter() {
@@ -389,7 +393,7 @@
                 instrutorFilter.appendChild(option);
             });
         }
-        
+
         /**
          * Função assíncrona para buscar os dados das aulas de um arquivo PHP externo.
          */
@@ -417,7 +421,7 @@
                 // Opcional: mostrar uma mensagem de erro na interface do usuário
             }
         }
-        
+
         function renderCalendar() {
             calendarGrid.innerHTML = `
                 <div class="day-name">Dom</div>
