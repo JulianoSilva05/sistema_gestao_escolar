@@ -1,34 +1,6 @@
 <?php
-// Simulação de dados de turmas (em um ambiente real, viriam de um banco de dados)
-$turmas = [
-    [
-        'id' => 1,
-        'codigo_turma' => 'HT-SIS-01-24-M-12700',
-        'data_inicio' => '2024-08-01',
-        'data_termino' => '2025-07-29',
-        'turno' => 'MANHÃ',
-        'num_alunos' => 30,
-        'curso' => 'Desenvolvimento de Sistemas.'
-    ],
-    [
-        'id' => 2,
-        'codigo_turma' => 'HT-IPI-01-N-12700',
-        'data_inicio' => '2025-05-10',
-        'data_termino' => '2026-12-10',
-        'turno' => 'NOITE',
-        'num_alunos' => 30,
-        'curso' => 'Informatica para Internet.'
-    ],
-    [
-        'id' => 3,
-        'codigo_turma' => 'HT-ADM-01-M-12700',
-        'data_inicio' => '2024-08-01',
-        'data_termino' => '2025-07-29',
-        'turno' => 'MANHÃ',
-        'num_alunos' => 22,
-        'curso' => 'Administração.'
-    ]
-];
+// Inclui o arquivo que contém a lista de turmas
+require_once 'dados_turmas.php';
 
 // Lógica de manipulação (exemplo simplificado, em um ambiente real usaria POST para formulários)
 // A implementação real de CRUD aqui envolveria conexão com BD e manipulação de $_POST
@@ -61,15 +33,12 @@ function formatarData($data)
             <nav class="sidebar-nav">
                 <ul>
                     <li><a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
-                    <li><a href="gestao_cursos.html"><i class="fas fa-book"></i> Gestão de Cursos</a></li>
-                    <li><a href="gestao_turmas.php" class="active"><i class="fas fa-users"></i> Gestão de Turmas</a>
-                    </li>
-                    <li><a href="gestao_instrutores.php"><i class="fas fa-chalkboard-teacher"></i> Gestão de
-                            Instrutores</a></li>
+                    <li><a href="gestao_cursos.php"><i class="fas fa-book"></i> Gestão de Cursos</a></li>
+                    <li><a href="gestao_turmas.php" class="active"><i class="fas fa-users"></i> Gestão de Turmas</a></li>
+                    <li><a href="gestao_instrutores.php"><i class="fas fa-chalkboard-teacher"></i> Gestão de Instrutores</a></li>
                     <li><a href="gestao_salas.php"><i class="fas fa-door-open"></i> Gestão de Salas</a></li>
                     <li><a href="gestao_empresas.php"><i class="fas fa-building"></i> Gestão de Empresas</a></li>
-                    <li><a href="gestao_unidades_curriculares.php"><i class="fas fa-graduation-cap"></i> Gestão de
-                            UCs</a></li>
+                    <li><a href="gestao_unidades_curriculares.php"><i class="fas fa-graduation-cap"></i> Gestão de UCs</a></li>
                     <li><a href="calendario.php"><i class="fas fa-calendar-alt"></i> Calendário</a></li>
                     <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
                 </ul>
@@ -109,6 +78,21 @@ function formatarData($data)
                             </tr>
                         </thead>
                         <tbody>
+                            <?php foreach ($turmas as $turma) : ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($turma['id']) ?></td>
+                                    <td><?= htmlspecialchars($turma['codigo_turma']) ?></td>
+                                    <td><?= htmlspecialchars(formatarData($turma['data_inicio'])) ?></td>
+                                    <td><?= htmlspecialchars(formatarData($turma['data_termino'])) ?></td>
+                                    <td><?= htmlspecialchars($turma['turno']) ?></td>
+                                    <td><?= htmlspecialchars($turma['num_alunos']) ?></td>
+                                    <td><?= htmlspecialchars($turma['curso']) ?></td>
+                                    <td class="actions">
+                                        <button class="btn btn-icon btn-edit" title="Editar" data-id="<?= $turma['id'] ?>"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-icon btn-delete" title="Excluir" data-id="<?= $turma['id'] ?>"><i class="fas fa-trash-alt"></i></button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -165,7 +149,6 @@ function formatarData($data)
     </div>
 
     <script>
-        // Lógica para abrir e fechar o modal e preencher/enviar formulário (via JavaScript, para simulação frontend)
         const turmaModal = document.getElementById('turmaModal');
         const addTurmaBtn = document.getElementById('addTurmaBtn');
         const closeButton = document.querySelector('#turmaModal .close-button');
@@ -173,7 +156,6 @@ function formatarData($data)
         const modalTitle = document.getElementById('modalTitle');
         const turmaForm = document.getElementById('turmaForm');
 
-        // Campos do formulário
         const turmaIdInput = document.getElementById('turmaId');
         const codigoTurmaInput = document.getElementById('codigoTurma');
         const dataInicioInput = document.getElementById('dataInicio');
@@ -182,15 +164,12 @@ function formatarData($data)
         const numAlunosInput = document.getElementById('numAlunos');
         const cursoTextarea = document.getElementById('curso');
 
-        // Referência à tabela para manipulação via JS (para fins de demonstração)
         const dataTableBody = document.querySelector('.data-table tbody');
 
-        // Campo de pesquisa
         const searchTurmaInput = document.getElementById('searchTurma');
 
-        // Funções de formatação de data para JS
         function formatDateForInput(dateString) {
-            const date = new Date(dateString + 'T00:00:00'); // Adiciona T00:00:00 para evitar problemas de fuso horário
+            const date = new Date(dateString + 'T00:00:00');
             const year = date.getFullYear();
             const month = (date.getMonth() + 1).toString().padStart(2, '0');
             const day = date.getDate().toString().padStart(2, '0');
@@ -204,11 +183,10 @@ function formatarData($data)
         }
 
 
-        // --- Event Listeners para Abrir/Fechar Modal ---
         addTurmaBtn.onclick = () => {
             modalTitle.textContent = "Adicionar Nova Turma";
-            turmaIdInput.value = ''; // Limpa o ID para indicar nova turma
-            turmaForm.reset(); // Limpa todos os campos do formulário
+            turmaIdInput.value = '';
+            turmaForm.reset();
             turmaModal.style.display = 'flex';
             document.body.classList.add('modal-open');
         };
@@ -230,18 +208,14 @@ function formatarData($data)
             }
         };
 
-        // Simula os dados de PHP no JavaScript para manipulação
         let turmasData = <?php echo json_encode($turmas); ?>;
-        let nextId = Math.max(...turmasData.map(t => t.id)) + 1; // Para novos IDs
+        let nextId = Math.max(...turmasData.map(t => t.id)) + 1;
 
-        // MODIFICADO: updateTableDisplay agora aceita um termo de pesquisa
         function updateTableDisplay(searchTerm = '') {
-            dataTableBody.innerHTML = ''; // Limpa a tabela
+            dataTableBody.innerHTML = '';
 
-            // Filtra os dados com base no termo de pesquisa
             const filteredTurmas = turmasData.filter(turma => {
                 const lowerCaseSearchTerm = searchTerm.toLowerCase();
-                // Verifique se as propriedades existem antes de chamar .toLowerCase() ou .includes()
                 const codigoTurmaMatch = turma.codigo_turma && turma.codigo_turma.toLowerCase().includes(lowerCaseSearchTerm);
                 const cursoMatch = turma.curso && turma.curso.toLowerCase().includes(lowerCaseSearchTerm);
                 const turnoMatch = turma.turno && turma.turno.toLowerCase().includes(lowerCaseSearchTerm);
@@ -255,7 +229,7 @@ function formatarData($data)
                 return;
             }
 
-            filteredTurmas.forEach(turma => { // Usa os dados filtrados
+            filteredTurmas.forEach(turma => {
                 const row = dataTableBody.insertRow();
                 row.innerHTML = `
                     <td>${turma.id}</td>
@@ -290,25 +264,22 @@ function formatarData($data)
             const newTurma = {
                 id: id ? parseInt(id) : nextId++,
                 codigo_turma: codigoTurmaInput.value,
-                data_inicio: dataInicioInput.value, // YYYY-MM-DD
-                data_termino: dataTerminoInput.value, // YYYY-MM-DD
+                data_inicio: dataInicioInput.value,
+                data_termino: dataTerminoInput.value,
                 turno: turnoSelect.value,
                 num_alunos: parseInt(numAlunosInput.value),
                 curso: cursoTextarea.value
             };
 
             if (id) {
-                // Editar
                 const index = turmasData.findIndex(t => t.id == id);
                 if (index !== -1) {
                     turmasData[index] = newTurma;
                 }
             } else {
-                // Adicionar
                 turmasData.push(newTurma);
             }
 
-            // Garante que a tabela é atualizada com o termo de pesquisa atual
             updateTableDisplay(searchTurmaInput.value);
             turmaModal.style.display = 'none';
             document.body.classList.remove('modal-open');
@@ -334,18 +305,14 @@ function formatarData($data)
         function deleteTurma(id) {
             if (confirm(`Tem certeza que deseja excluir a turma com ID ${id} e código ${turmasData.find(t => t.id == id)?.codigo_turma}?`)) {
                 turmasData = turmasData.filter(t => t.id != id);
-                // Garante que a tabela é atualizada com o termo de pesquisa atual
                 updateTableDisplay(searchTurmaInput.value);
             }
         }
 
-        // Adiciona o event listener para o campo de pesquisa
         searchTurmaInput.addEventListener('keyup', (event) => {
             updateTableDisplay(event.target.value);
         });
 
-        // Inicializa a exibição da tabela ao carregar a página
-        // Chama a função com o valor inicial do campo de pesquisa (que será vazio)
         document.addEventListener('DOMContentLoaded', () => updateTableDisplay(searchTurmaInput.value));
     </script>
     <script>
@@ -353,15 +320,12 @@ function formatarData($data)
         const sidebar = document.querySelector('.sidebar');
         const dashboardContainer = document.querySelector('.dashboard-container');
 
-        // Função para abrir/fechar o menu
         menuToggle.addEventListener('click', () => {
             sidebar.classList.toggle('active');
             dashboardContainer.classList.toggle('sidebar-active');
         });
 
-        // Função para fechar o menu ao clicar fora dele
         dashboardContainer.addEventListener('click', (event) => {
-            // Verifica se o clique foi fora da sidebar e do botão de toggle
             if (dashboardContainer.classList.contains('sidebar-active') && !sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
                 sidebar.classList.remove('active');
                 dashboardContainer.classList.remove('sidebar-active');

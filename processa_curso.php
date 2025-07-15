@@ -44,11 +44,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Por enquanto, apenas exibe a mensagem para teste
     echo $message;
-    echo "<br><a href='gestao_cursos.html'>Voltar para Gestão de Cursos</a>";
+    echo "<br><a href='gestao_cursos.php'>Voltar para Gestão de Cursos</a>";
 
 } else {
     // Redireciona se o acesso não for via POST
-    header("Location: gestao_cursos.html");
+    header("Location: gestao_cursos.php");
     exit();
 }
 ?>
