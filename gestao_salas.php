@@ -168,100 +168,10 @@
     </div>
 
     <script>
-        // Dados Mockados (simulando um "banco de dados")
-        let salasData = JSON.parse(localStorage.getItem('salasData')) || [{
-                id: 1,
-                nome: "Sala A101",
-                capacidade: 30,
-                status: "Ocupada", // Será atualizado dinamicamente
-                turmaAtual: "TADS2025.1", // Será atualizado dinamicamente
-                instrutorAtual: "Prof. Ana Paula", // Será atualizado dinamicamente
-                ferramentas: ["Projetor", "Computadores", "Lousa Interativa"],
-                disciplinas: ["Programação Web", "Banco de Dados", "Engenharia de Software"],
-                reservas: [{
-                        data: "2025-07-10",
-                        turmaId: 1,
-                        instrutorId: 1,
-                        disciplina: "Programação Web"
-                    },
-                    {
-                        data: "2025-07-15",
-                        turmaId: 2,
-                        instrutorId: 2,
-                        disciplina: "Banco de Dados"
-                    },
-                    {
-                        data: "2025-07-11",
-                        turmaId: 1,
-                        instrutorId: 1,
-                        disciplina: "Algoritmos"
-                    } // Nova reserva para teste
-                ]
-            },
-            {
-                id: 2,
-                nome: "Laboratório B203",
-                capacidade: 20,
-                status: "Livre", // Será atualizado dinamicamente
-                turmaAtual: "", // Será atualizado dinamicamente
-                instrutorAtual: "", // Será atualizado dinamicamente
-                ferramentas: ["Microscópios", "Bancadas", "Reagentes"],
-                disciplinas: ["Química", "Biologia", "Física Experimental"],
-                reservas: [{
-                    data: "2025-07-12",
-                    turmaId: 3,
-                    instrutorId: 3,
-                    disciplina: "Química Orgânica"
-                }]
-            },
-            {
-                id: 3,
-                nome: "Auditório Principal",
-                capacidade: 100,
-                status: "Livre", // Será atualizado dinamicamente
-                turmaAtual: "", // Será atualizado dinamicamente
-                instrutorAtual: "", // Será atualizado dinamicamente
-                ferramentas: ["Sistema de Som", "Projetor 4K", "Microfones"],
-                disciplinas: ["Palestras", "Eventos", "Apresentações"],
-                reservas: [{
-                    data: "2025-07-20",
-                    turmaId: 3,
-                    instrutorId: 3,
-                    disciplina: "Seminário de Inovação"
-                }]
-            }
-        ];
-
-        let turmasData = JSON.parse(localStorage.getItem('turmasData')) || [{
-                id: 1,
-                codigo: "TADS2025.1",
-                nome: "Turma Análise e Desenvolvimento de Sistemas"
-            },
-            {
-                id: 2,
-                codigo: "MEC2024.2",
-                nome: "Turma Mecatrônica"
-            },
-            {
-                id: 3,
-                codigo: "ADM2025.1",
-                nome: "Turma Administração"
-            }
-        ];
-
-        let instrutoresData = JSON.parse(localStorage.getItem('instrutoresData')) || [{
-                id: 1,
-                nome: "Prof. Ana Paula"
-            },
-            {
-                id: 2,
-                nome: "Prof. Carlos Silva"
-            },
-            {
-                id: 3,
-                nome: "Prof. Maria Santos"
-            }
-        ];
+        // Variáveis globais para armazenar os dados
+        let salasData = [];
+        let turmasData = [];
+        let instrutoresData = [];
 
         // Referências aos elementos do DOM
         const salasTableBody = document.querySelector('#salasTable tbody');
@@ -275,11 +185,8 @@
         const salaFerramentasInput = document.getElementById('salaFerramentasInput');
         const salaDisciplinasInput = document.getElementById('salaDisciplinasInput');
         const searchSalaInput = document.getElementById('searchSalaInput');
-
-        // Novos elementos de filtro
         const filterDateInput = document.getElementById('filterDateInput');
         const filterStatusSelect = document.getElementById('filterStatusSelect');
-
 
         const detalhesSalaModal = document.getElementById('detalhesSalaModal');
         const detalhesSalaNome = document.getElementById('detalhesSalaNome');
@@ -297,21 +204,53 @@
         const reservaDisciplinaInput = document.getElementById('reservaDisciplinaInput');
         const btnReservarSala = document.getElementById('btnReservarSala');
 
-        let currentSalaIdForDetails = null; // Para saber qual sala está aberta no modal de detalhes
+        let currentSalaIdForDetails = null;
 
-        // Funções para Salvar e Carregar Dados (simulando persistência)
-        function saveData() {
-            localStorage.setItem('salasData', JSON.stringify(salasData));
-            localStorage.setItem('turmasData', JSON.stringify(turmasData)); // Salvar turmas também
-            localStorage.setItem('instrutoresData', JSON.stringify(instrutoresData)); // Salvar instrutores
+        // Função para carregar dados do servidor
+        async function loadData() {
+            try {
+                // Carregar apenas os dados das salas
+                const responseSalas = await fetch('dados_salas.php');
+                if (!responseSalas.ok) throw new Error('Erro ao carregar dados das salas');
+                salasData = await responseSalas.json();
+                
+                // Extrair turmas e instrutores das reservas das salas
+                turmasData = [];
+                instrutoresData = [];
+                
+                salasData.forEach(sala => {
+                    if (sala.reservas && sala.reservas.length > 0) {
+                        sala.reservas.forEach(reserva => {
+                            // Adiciona turma se não existir
+                            if (!turmasData.some(t => t.id === reserva.turmaId)) {
+                                turmasData.push({
+                                    id: reserva.turmaId,
+                                    codigo: reserva.turmaCodigo || `Turma ${reserva.turmaId}`
+                                });
+                            }
+                            
+                            // Adiciona instrutor se não existir
+                            if (!instrutoresData.some(i => i.id === reserva.instrutorId)) {
+                                instrutoresData.push({
+                                    id: reserva.instrutorId,
+                                    nome: reserva.instrutorNome || `Instrutor ${reserva.instrutorId}`
+                                });
+                            }
+                        });
+                    }
+                });
+                
+                updateTableDisplay();
+            } catch (error) {
+                console.error('Erro ao carregar dados:', error);
+                alert('Erro ao carregar dados. Por favor, recarregue a página.');
+            }
         }
-
-        // --- Funções de Renderização e Lógica ---
 
         // Função para atualizar o status e info da sala com base na data atual
         function updateSalaCurrentStatus(sala) {
             const today = new Date();
-            today.setHours(0, 0, 0, 0); // Zera hora para comparação de datas
+            today.setHours(0, 0, 0, 0);
 
             const reservaHoje = sala.reservas.find(reserva => {
                 const reservaDate = new Date(reserva.data);
@@ -321,10 +260,8 @@
 
             if (reservaHoje) {
                 sala.status = "Ocupada";
-                const turma = turmasData.find(t => t.id === reservaHoje.turmaId);
-                const instrutor = instrutoresData.find(i => i.id === reservaHoje.instrutorId);
-                sala.turmaAtual = turma ? turma.codigo : 'N/A';
-                sala.instrutorAtual = instrutor ? instrutor.nome : 'N/A';
+                sala.turmaAtual = reservaHoje.turmaCodigo || `Turma ${reservaHoje.turmaId}`;
+                sala.instrutorAtual = reservaHoje.instrutorNome || `Instrutor ${reservaHoje.instrutorId}`;
             } else {
                 sala.status = "Livre";
                 sala.turmaAtual = "";
@@ -332,16 +269,14 @@
             }
         }
 
-
         function updateTableDisplay() {
             salasTableBody.innerHTML = '';
             const searchTerm = searchSalaInput.value.toLowerCase();
-            const filterDate = filterDateInput.value; // Formato YYYY-MM-DD
+            const filterDate = filterDateInput.value;
             const filterStatus = filterStatusSelect.value;
 
             const filteredSalas = salasData.filter(sala => {
-                // Atualiza o status da sala antes de filtrar
-                updateSalaCurrentStatus(sala); // Garante que o status atual da tabela está correto
+                updateSalaCurrentStatus(sala);
 
                 const matchesSearchTerm = sala.nome.toLowerCase().includes(searchTerm) ||
                     sala.turmaAtual.toLowerCase().includes(searchTerm) ||
@@ -349,29 +284,18 @@
 
                 let matchesDate = true;
                 if (filterDate) {
-                    // Verifica se a sala tem uma reserva para a data filtrada
                     const hasReservationOnDate = sala.reservas.some(reserva => reserva.data === filterDate);
 
-                    // Se a data de filtro é hoje, o status da sala na tabela deve refletir a reserva de hoje
-                    // Se não for hoje, a sala só será considerada "ocupada" na data filtrada se tiver uma reserva específica para ela.
-                    // Para "Livre", a sala não deve ter reserva na data filtrada.
                     if (filterStatus === "Ocupada") {
                         matchesDate = hasReservationOnDate;
                     } else if (filterStatus === "Livre") {
                         matchesDate = !hasReservationOnDate;
-                    } else { // Se status for "Todos", a data de filtro é apenas uma informação
-                        // Se houver uma data, a sala deve ter uma reserva OU estar livre para considerar "matchesDate"
-                        // Neste caso, se a data for informada, exibimos todas as salas, e o status será "real" ou "projetado"
-                        // Mas para o filtro de tabela, queremos mostrar as que ESTÃO LIVRES OU OCUPADAS na data.
-                        // Para simplicidade, se uma data é informada e o status é 'Todos', mostramos todas as salas.
-                        matchesDate = true;
                     }
                 }
 
                 let matchesStatus = true;
                 if (filterStatus) {
                     if (filterDate) {
-                        // Se há uma data, o status é "projetado" para aquela data
                         const hasReservationOnDate = sala.reservas.some(reserva => reserva.data === filterDate);
                         if (filterStatus === "Ocupada") {
                             matchesStatus = hasReservationOnDate;
@@ -379,7 +303,6 @@
                             matchesStatus = !hasReservationOnDate;
                         }
                     } else {
-                        // Se não há data, o status é o "status atual" da sala (hoje)
                         matchesStatus = sala.status === filterStatus;
                     }
                 }
@@ -393,7 +316,6 @@
                 row.insertCell().textContent = sala.nome;
                 row.insertCell().textContent = sala.capacidade;
 
-                // Exibe o status da sala na data filtrada, se houver, ou o status atual
                 let displayStatus = sala.status;
                 let displayTurma = sala.turmaAtual || '-';
                 let displayInstrutor = sala.instrutorAtual || '-';
@@ -402,10 +324,8 @@
                     const reservaNaDataFiltrada = sala.reservas.find(reserva => reserva.data === filterDate);
                     if (reservaNaDataFiltrada) {
                         displayStatus = "Ocupada";
-                        const turma = turmasData.find(t => t.id === reservaNaDataFiltrada.turmaId);
-                        const instrutor = instrutoresData.find(i => i.id === reservaNaDataFiltrada.instrutorId);
-                        displayTurma = turma ? turma.codigo : 'N/A';
-                        displayInstrutor = instrutor ? instrutor.nome : 'N/A';
+                        displayTurma = reservaNaDataFiltrada.turmaCodigo || `Turma ${reservaNaDataFiltrada.turmaId}`;
+                        displayInstrutor = reservaNaDataFiltrada.instrutorNome || `Instrutor ${reservaNaDataFiltrada.instrutorId}`;
                     } else {
                         displayStatus = "Livre";
                         displayTurma = '-';
@@ -420,7 +340,6 @@
                 const actionsCell = row.insertCell();
                 actionsCell.classList.add('actions');
 
-                // Botão de Detalhes
                 const detalhesBtn = document.createElement('button');
                 detalhesBtn.classList.add('btn', 'btn-icon', 'btn-primary');
                 detalhesBtn.innerHTML = '<i class="fas fa-info-circle"></i>';
@@ -428,7 +347,6 @@
                 detalhesBtn.onclick = () => openDetalhesModal(sala.id);
                 actionsCell.appendChild(detalhesBtn);
 
-                // Botão de Editar
                 const editBtn = document.createElement('button');
                 editBtn.classList.add('btn', 'btn-icon', 'btn-edit');
                 editBtn.innerHTML = '<i class="fas fa-edit"></i>';
@@ -436,7 +354,6 @@
                 editBtn.onclick = () => openEditModal(sala.id);
                 actionsCell.appendChild(editBtn);
 
-                // Botão de Excluir
                 const deleteBtn = document.createElement('button');
                 deleteBtn.classList.add('btn', 'btn-icon', 'btn-delete');
                 deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
@@ -444,7 +361,6 @@
                 deleteBtn.onclick = () => deleteSala(sala.id);
                 actionsCell.appendChild(deleteBtn);
             });
-            saveData();
         }
 
         function openAddModal() {
@@ -462,14 +378,14 @@
                 salaIdInput.value = sala.id;
                 salaNomeInput.value = sala.nome;
                 salaCapacidadeInput.value = sala.capacidade;
-                salaFerramentasInput.value = sala.ferramentas.join(', ');
-                salaDisciplinasInput.value = sala.disciplinas.join(', ');
+                salaFerramentasInput.value = sala.ferramentas ? sala.ferramentas.join(', ') : '';
+                salaDisciplinasInput.value = sala.disciplinas ? sala.disciplinas.join(', ') : '';
                 salaModal.style.display = 'flex';
                 document.body.classList.add('modal-open');
             }
         }
 
-        function saveSala(event) {
+        async function saveSala(event) {
             event.preventDefault();
 
             const id = salaIdInput.value;
@@ -478,53 +394,62 @@
             const ferramentas = salaFerramentasInput.value.split(',').map(f => f.trim()).filter(f => f !== '');
             const disciplinas = salaDisciplinasInput.value.split(',').map(d => d.trim()).filter(d => d !== '');
 
-            if (id) {
-                // Editar Sala
-                const index = salasData.findIndex(s => s.id == id);
-                if (index !== -1) {
-                    salasData[index] = {
-                        ...salasData[index], // Mantém status, turma, instrutor e reservas existentes
-                        nome,
-                        capacidade,
-                        ferramentas,
-                        disciplinas
-                    };
-                    alert('Sala atualizada com sucesso!');
-                }
-            } else {
-                // Adicionar Nova Sala
-                const newId = salasData.length > 0 ? Math.max(...salasData.map(s => s.id)) + 1 : 1;
-                salasData.push({
-                    id: newId,
-                    nome,
-                    capacidade,
-                    // Ao adicionar, não definimos status, turma, instrutor, pois são dinâmicos
-                    ferramentas,
-                    disciplinas,
-                    reservas: []
-                });
-                alert('Sala adicionada com sucesso!');
-            }
+            const formData = new FormData();
+            formData.append('id', id);
+            formData.append('nome', nome);
+            formData.append('capacidade', capacidade);
+            formData.append('ferramentas', JSON.stringify(ferramentas));
+            formData.append('disciplinas', JSON.stringify(disciplinas));
 
-            salaModal.style.display = 'none';
-            document.body.classList.remove('modal-open');
-            updateTableDisplay();
+            try {
+                const response = await fetch('salvar_sala.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) throw new Error('Erro ao salvar sala');
+
+                const result = await response.json();
+                if (result.success) {
+                    alert('Sala salva com sucesso!');
+                    salaModal.style.display = 'none';
+                    document.body.classList.remove('modal-open');
+                    loadData();
+                } else {
+                    throw new Error(result.message || 'Erro ao salvar sala');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao salvar sala: ' + error.message);
+            }
         }
 
-        function deleteSala(id) {
+        async function deleteSala(id) {
             if (confirm('Tem certeza que deseja excluir esta sala? Esta ação é irreversível.')) {
-                salasData = salasData.filter(s => s.id != id);
-                updateTableDisplay();
-                alert('Sala excluída com sucesso!');
+                try {
+                    const response = await fetch(`excluir_sala.php?id=${id}`);
+                    
+                    if (!response.ok) throw new Error('Erro ao excluir sala');
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        alert('Sala excluída com sucesso!');
+                        loadData();
+                    } else {
+                        throw new Error(result.message || 'Erro ao excluir sala');
+                    }
+                } catch (error) {
+                    console.error('Erro:', error);
+                    alert('Erro ao excluir sala: ' + error.message);
+                }
             }
         }
 
         function openDetalhesModal(id) {
-            currentSalaIdForDetails = id; // Guarda o ID da sala para uso na reserva
+            currentSalaIdForDetails = id;
             const sala = salasData.find(s => s.id == id);
 
             if (sala) {
-                // Atualiza o status atual da sala para o modal de detalhes
                 updateSalaCurrentStatus(sala);
 
                 detalhesSalaNome.textContent = sala.nome;
@@ -534,7 +459,6 @@
                 detalhesSalaTurmaAtual.textContent = sala.turmaAtual || '-';
                 detalhesSalaInstrutorAtual.textContent = sala.instrutorAtual || '-';
 
-                // Disciplinas Preparadas
                 detalhesSalaDisciplinas.innerHTML = '';
                 if (sala.disciplinas && sala.disciplinas.length > 0) {
                     sala.disciplinas.forEach(disciplina => {
@@ -547,7 +471,6 @@
                     detalhesSalaDisciplinas.textContent = 'Nenhuma disciplina informada.';
                 }
 
-                // Ferramentas Disponíveis
                 detalhesSalaFerramentas.innerHTML = '';
                 if (sala.ferramentas && sala.ferramentas.length > 0) {
                     sala.ferramentas.forEach(ferramenta => {
@@ -560,10 +483,7 @@
                     detalhesSalaFerramentas.textContent = 'Nenhuma ferramenta informada.';
                 }
 
-                // Gerar Calendário
                 renderCalendario(sala);
-
-                // Preencher selects de turma e instrutor para reserva
                 populateReservaSelects();
 
                 detalhesSalaModal.style.display = 'flex';
@@ -584,25 +504,23 @@
             `;
 
             const today = new Date();
-            today.setHours(0, 0, 0, 0); // Zera a hora para comparação
-            const year = 2025; // Ano fixo para o calendário
-            const month = 6; // Julho (0-indexed)
+            today.setHours(0, 0, 0, 0);
+            const year = 2025;
+            const month = 6;
 
             const firstDayOfMonth = new Date(year, month, 1);
             const daysInMonth = new Date(year, month + 1, 0).getDate();
-            const startDay = firstDayOfMonth.getDay(); // 0 = Domingo, 1 = Segunda...
+            const startDay = firstDayOfMonth.getDay();
 
-            // Adicionar dias vazios para preencher o início do mês
             for (let i = 0; i < startDay; i++) {
                 const emptyDiv = document.createElement('div');
                 calendarioGrid.appendChild(emptyDiv);
             }
 
-            // Adicionar os dias do mês
             for (let day = 1; day <= daysInMonth; day++) {
                 const date = new Date(year, month, day);
-                date.setHours(0, 0, 0, 0); // Zera a hora para comparação
-                const dateString = date.toISOString().split('T')[0]; // Formato YYYY-MM-DD
+                date.setHours(0, 0, 0, 0);
+                const dateString = date.toISOString().split('T')[0];
 
                 const dayDiv = document.createElement('div');
                 dayDiv.classList.add('calendario-dia');
@@ -610,30 +528,26 @@
                 dayDiv.dataset.date = dateString;
 
                 const isOccupied = sala.reservas.some(reserva => reserva.data === dateString);
-                const isPastDate = date.getTime() < today.getTime(); // Verifica se a data já passou
+                const isPastDate = date.getTime() < today.getTime();
 
                 if (isOccupied) {
                     dayDiv.classList.add('ocupado');
-                    // Opcional: Adicionar tooltip com info da reserva
                     const reservaInfo = sala.reservas.find(reserva => reserva.data === dateString);
                     dayDiv.title = `Ocupado por ${reservaInfo.turmaCodigo} (${reservaInfo.disciplina})`;
                 } else if (isPastDate) {
-                    dayDiv.classList.add('calendario-dia-passado'); // Nova classe para datas passadas
-                    dayDiv.style.backgroundColor = '#e0e0e0'; // Cinza para datas passadas
+                    dayDiv.classList.add('calendario-dia-passado');
+                    dayDiv.style.backgroundColor = '#e0e0e0';
                     dayDiv.style.cursor = 'not-allowed';
                 } else {
                     dayDiv.addEventListener('click', () => {
-                        // Remover seleção anterior
                         document.querySelectorAll('.calendario-dia.selecionado').forEach(d => d.classList.remove('selecionado'));
-                        // Adicionar seleção ao dia clicado
                         dayDiv.classList.add('selecionado');
-                        // Preencher input de data
                         reservaDataInput.value = dateString;
                     });
                 }
 
                 if (date.getTime() === today.getTime()) {
-                    dayDiv.style.border = '2px solid #007BFF'; // Destaca o dia atual
+                    dayDiv.style.border = '2px solid #007BFF';
                     dayDiv.style.fontWeight = 'bold';
                 }
 
@@ -642,7 +556,6 @@
         }
 
         function populateReservaSelects() {
-            // Preencher Turmas
             reservaTurmaInput.innerHTML = '<option value="">Selecione a Turma</option>';
             turmasData.forEach(turma => {
                 const option = document.createElement('option');
@@ -651,7 +564,6 @@
                 reservaTurmaInput.appendChild(option);
             });
 
-            // Preencher Instrutores
             reservaInstrutorInput.innerHTML = '<option value="">Selecione o Instrutor</option>';
             instrutoresData.forEach(instrutor => {
                 const option = document.createElement('option');
@@ -661,7 +573,7 @@
             });
         }
 
-        function reservarSala() {
+        async function reservarSala() {
             const salaId = currentSalaIdForDetails;
             const reservaData = reservaDataInput.value;
             const reservaTurmaId = reservaTurmaInput.value;
@@ -673,52 +585,47 @@
                 return;
             }
 
-            const sala = salasData.find(s => s.id == salaId);
-            if (sala) {
-                const isOccupied = sala.reservas.some(r => r.data === reservaData);
-                if (isOccupied) {
-                    alert('Esta sala já está reservada para a data selecionada.');
-                    return;
-                }
+            const formData = new FormData();
+            formData.append('salaId', salaId);
+            formData.append('data', reservaData);
+            formData.append('turmaId', reservaTurmaId);
+            formData.append('instrutorId', reservaInstrutorId);
+            formData.append('disciplina', reservaDisciplina);
 
-                const turma = turmasData.find(t => t.id == reservaTurmaId);
-                const instrutor = instrutoresData.find(i => i.id == reservaInstrutorId);
-
-                sala.reservas.push({
-                    data: reservaData,
-                    turmaId: parseInt(reservaTurmaId),
-                    turmaCodigo: turma ? turma.codigo : 'N/A', // Adiciona código da turma para fácil exibição
-                    instrutorId: parseInt(reservaInstrutorId),
-                    instrutorNome: instrutor ? instrutor.nome : 'N/A', // Adiciona nome do instrutor
-                    disciplina: reservaDisciplina
+            try {
+                const response = await fetch('reservar_sala.php', {
+                    method: 'POST',
+                    body: formData
                 });
 
-                alert('Sala reservada com sucesso!');
-                // Reabrir o modal para atualizar o calendário
-                openDetalhesModal(salaId); // Isso também chamará updateSalaCurrentStatus() internamente
-                // Limpar formulário de reserva
-                reservaDataInput.value = '';
-                reservaTurmaInput.value = '';
-                reservaInstrutorInput.value = '';
-                reservaDisciplinaInput.value = '';
-                updateTableDisplay(); // Atualizar a tabela principal
+                if (!response.ok) throw new Error('Erro ao reservar sala');
+
+                const result = await response.json();
+                if (result.success) {
+                    alert('Sala reservada com sucesso!');
+                    openDetalhesModal(salaId);
+                    reservaDataInput.value = '';
+                    reservaTurmaInput.value = '';
+                    reservaInstrutorInput.value = '';
+                    reservaDisciplinaInput.value = '';
+                    loadData();
+                } else {
+                    throw new Error(result.message || 'Erro ao reservar sala');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao reservar sala: ' + error.message);
             }
         }
 
-
-        // --- Event Listeners ---
+        // Event Listeners
         addSalaBtn.addEventListener('click', openAddModal);
         salaForm.addEventListener('submit', saveSala);
-
-        // Adicionar listeners para os novos filtros
         searchSalaInput.addEventListener('keyup', updateTableDisplay);
         filterDateInput.addEventListener('change', updateTableDisplay);
         filterStatusSelect.addEventListener('change', updateTableDisplay);
-
         btnReservarSala.addEventListener('click', reservarSala);
 
-
-        // Listeners para fechar modais (reutilizando os do seu código CSS)
         document.querySelectorAll('.close-button, .close-modal').forEach(button => {
             button.onclick = (e) => {
                 const modal = e.target.closest('.modal');
@@ -729,7 +636,6 @@
             };
         });
 
-        // Fechar modal clicando fora
         window.onclick = (event) => {
             if (event.target.classList.contains('modal')) {
                 event.target.style.display = 'none';
@@ -737,13 +643,12 @@
             }
         };
 
-        // Inicializar a exibição da tabela ao carregar a página
+        // Inicialização
         document.addEventListener('DOMContentLoaded', () => {
-            updateTableDisplay();
-            // Define a data mínima para o input de reserva como o dia atual
+            loadData();
             const today = new Date().toISOString().split('T')[0];
             reservaDataInput.min = today;
-            filterDateInput.value = today; // Define a data de filtro inicial para hoje
+            filterDateInput.value = today;
         });
     </script>
     
@@ -752,15 +657,12 @@
     const sidebar = document.querySelector('.sidebar');
     const dashboardContainer = document.querySelector('.dashboard-container');
 
-    // Função para abrir/fechar o menu
     menuToggle.addEventListener('click', () => {
         sidebar.classList.toggle('active');
         dashboardContainer.classList.toggle('sidebar-active');
     });
 
-    // Função para fechar o menu ao clicar fora dele
     dashboardContainer.addEventListener('click', (event) => {
-        // Verifica se o clique foi fora da sidebar e do botão de toggle
         if (dashboardContainer.classList.contains('sidebar-active') && !sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
             sidebar.classList.remove('active');
             dashboardContainer.classList.remove('sidebar-active');
@@ -768,5 +670,4 @@
     });
 </script>
 </body>
-
 </html>
