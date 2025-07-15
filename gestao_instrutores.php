@@ -213,7 +213,9 @@ function formatarData($data)
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestão de Instrutores - SENAI</title>
-    <link rel="stylesheet" href="style_turmas.css"> <link rel="stylesheet" href="style_instrutores.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style_turmas.css">
+    <link rel="stylesheet" href="style_instrutores.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
@@ -229,12 +231,13 @@ function formatarData($data)
                     <li><a href="gestao_cursos.html"><i class="fas fa-book"></i> Gestão de Cursos</a></li>
                     <li><a href="gestao_turmas.php"><i class="fas fa-users"></i> Gestão de Turmas</a>
                     </li>
-                    <li><a href="gestao_instrutores.php" class="active"><i class="fas fa-chalkboard-teacher"></i> Gestão de
-                                Instrutores</a></li>
+                    <li><a href="gestao_instrutores.php" class="active"><i class="fas fa-chalkboard-teacher"></i> Gestão
+                            de
+                            Instrutores</a></li>
                     <li><a href="gestao_salas.php"><i class="fas fa-door-open"></i> Gestão de Salas</a></li>
                     <li><a href="gestao_empresas.php"><i class="fas fa-building"></i> Gestão de Empresas</a></li>
                     <li><a href="gestao_unidades_curriculares.php"><i class="fas fa-graduation-cap"></i> Gestão de
-                                UCs</a></li>
+                            UCs</a></li>
                     <li><a href="calendario.php"><i class="fas fa-calendar-alt"></i> Calendário</a></li>
                     <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
                 </ul>
@@ -242,6 +245,9 @@ function formatarData($data)
         </aside>
 
         <main class="main-content">
+            <button class="menu-toggle" id="menu-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
             <div class="main-header">
                 <h1>Gestão de Instrutores</h1>
                 <button class="btn btn-primary" id="addInstrutorBtn">
@@ -252,17 +258,25 @@ function formatarData($data)
             <section class="table-section">
                 <h2>Lista de Instrutores</h2>
                 <div class="filter-section">
-                    <label for="searchInstrutor">Pesquisar Instrutor (Nome, Email, Área, Competências):</label>
-                    <input type="text" id="searchInstrutor" placeholder="Digite para filtrar..."
-                        class="search-input">
+                    <div class="filter-group">
+                        <label for="searchInstrutor">Pesquisar Instrutor (Nome, Área, Competências):</label>
+                        <input type="text" id="searchInstrutor" placeholder="Digite para filtrar..."
+                            class="search-input">
+                    </div>
 
-                    <label for="filterDate">Filtrar por Disponibilidade na Data:</label>
-                    <input type="date" id="filterDate" class="search-input">
-                    <select id="availabilityFilter" class="search-input">
-                        <option value="">Mostrar Todos</option>
-                        <option value="livre">Livre</option>
-                        <option value="ocupado">Ocupado</option>
-                    </select>
+                    <div class="filter-group">
+                        <label for="filterDate">Filtrar por Disponibilidade na Data:</label>
+                        <input type="date" id="filterDate" class="search-input">
+                    </div>
+
+                    <div class="filter-group">
+                        <label for="availabilityFilter">Disponibilidade:</label>
+                        <select id="availabilityFilter" class="search-input">
+                            <option value="">Mostrar Todos</option>
+                            <option value="livre">Livre</option>
+                            <option value="ocupado">Ocupado</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="table-responsive">
                     <table class="data-table">
@@ -278,7 +292,7 @@ function formatarData($data)
                             </tr>
                         </thead>
                         <tbody>
-                            </tbody>
+                        </tbody>
                     </table>
                 </div>
             </section>
@@ -313,7 +327,8 @@ function formatarData($data)
 
                 <div class="form-group">
                     <label for="observacoesInstrutor">Observações (Competências, etc.):</label>
-                    <textarea id="observacoesInstrutor" rows="3" placeholder="Ex: Especialista em Java, Conhecimento em UX/UI."></textarea>
+                    <textarea id="observacoesInstrutor" rows="3"
+                        placeholder="Ex: Especialista em Java, Conhecimento em UX/UI."></textarea>
                 </div>
 
                 <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Salvar Instrutor</button>
@@ -337,24 +352,25 @@ function formatarData($data)
 
                 <h3>Associação a Turmas</h3>
                 <div class="turmas-associadas-list" id="turmasAssociadasList">
-                    </div>
+                </div>
                 <div class="form-group add-turma-form">
                     <label for="addTurmaToInstrutor">Associar nova Turma:</label>
                     <select id="addTurmaToInstrutor">
                         <option value="">Selecione uma turma</option>
-                        <?php foreach ($turmas_disponiveis as $turma) : ?>
+                        <?php foreach ($turmas_disponiveis as $turma): ?>
                             <option value="<?php echo $turma['id']; ?>" data-codigo="<?php echo $turma['codigo_turma']; ?>">
                                 <?php echo htmlspecialchars($turma['codigo_turma']); ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
-                    <button class="btn btn-primary btn-add-small" id="btnAssociarTurma"><i class="fas fa-plus"></i> Associar</button>
+                    <button class="btn btn-primary btn-add-small" id="btnAssociarTurma"><i class="fas fa-plus"></i>
+                        Associar</button>
                 </div>
 
                 <h3>Histórico de Aulas Ministradas</h3>
                 <div class="historico-aulas-list" id="historicoAulasList">
-                    </div>
-                 <div class="form-group add-aula-form">
+                </div>
+                <div class="form-group add-aula-form">
                     <h4>Registrar Nova Aula</h4>
                     <input type="hidden" id="aulaInstrutorId">
                     <label for="aulaData">Data:</label>
@@ -365,7 +381,8 @@ function formatarData($data)
                     <input type="text" id="aulaTurmaCodigo" placeholder="Ex: HT-SIS-01-24-M-12700" required>
                     <label for="aulaHoras">Horas:</label>
                     <input type="number" id="aulaHoras" min="1" required>
-                    <button class="btn btn-primary btn-add-small" id="btnRegistrarAula"><i class="fas fa-plus"></i> Registrar Aula</button>
+                    <button class="btn btn-primary btn-add-small" id="btnRegistrarAula"><i class="fas fa-plus"></i>
+                        Registrar Aula</button>
                 </div>
 
             </div>
@@ -653,7 +670,7 @@ function formatarData($data)
                 });
 
                 // Adicionar listener para remover aula do histórico
-                 document.querySelectorAll('.historico-aulas-list .remove-tag').forEach(button => {
+                document.querySelectorAll('.historico-aulas-list .remove-tag').forEach(button => {
                     button.onclick = (e) => removeAulaMinistrada(e.currentTarget.dataset.instrutorId, e.currentTarget.dataset.aulaIndex);
                 });
 
@@ -737,6 +754,26 @@ function formatarData($data)
 
         document.addEventListener('DOMContentLoaded', () => updateTableDisplay());
     </script>
+    <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    const dashboardContainer = document.querySelector('.dashboard-container');
+
+    // Função para abrir/fechar o menu
+    menuToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('active');
+        dashboardContainer.classList.toggle('sidebar-active');
+    });
+
+    // Função para fechar o menu ao clicar fora dele
+    dashboardContainer.addEventListener('click', (event) => {
+        // Verifica se o clique foi fora da sidebar e do botão de toggle
+        if (dashboardContainer.classList.contains('sidebar-active') && !sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
+            sidebar.classList.remove('active');
+            dashboardContainer.classList.remove('sidebar-active');
+        }
+    });
+</script>
 </body>
 
 </html>

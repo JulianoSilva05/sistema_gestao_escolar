@@ -1,7 +1,6 @@
 <?php
 // processa_curso.php
 
-// Em um ambiente real, você faria:
 // 1. Incluir conexão com o banco de dados
 // 2. Receber os dados do formulário ($_POST)
 // 3. Validar e sanitizar os dados

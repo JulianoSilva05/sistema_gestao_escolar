@@ -65,11 +65,11 @@ function formatarData($data)
                     <li><a href="gestao_turmas.php" class="active"><i class="fas fa-users"></i> Gestão de Turmas</a>
                     </li>
                     <li><a href="gestao_instrutores.php"><i class="fas fa-chalkboard-teacher"></i> Gestão de
-                                Instrutores</a></li>
+                            Instrutores</a></li>
                     <li><a href="gestao_salas.php"><i class="fas fa-door-open"></i> Gestão de Salas</a></li>
                     <li><a href="gestao_empresas.php"><i class="fas fa-building"></i> Gestão de Empresas</a></li>
                     <li><a href="gestao_unidades_curriculares.php"><i class="fas fa-graduation-cap"></i> Gestão de
-                                UCs</a></li>
+                            UCs</a></li>
                     <li><a href="calendario.php"><i class="fas fa-calendar-alt"></i> Calendário</a></li>
                     <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
                 </ul>
@@ -77,6 +77,9 @@ function formatarData($data)
         </aside>
 
         <main class="main-content">
+            <button class="menu-toggle" id="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
             <div class="main-header">
                 <h1>Gestão de Turmas</h1>
                 <button class="btn btn-primary" id="addTurmaBtn">
@@ -106,7 +109,7 @@ function formatarData($data)
                             </tr>
                         </thead>
                         <tbody>
-                            </tbody>
+                        </tbody>
                     </table>
                 </div>
             </section>
@@ -242,7 +245,7 @@ function formatarData($data)
                 const codigoTurmaMatch = turma.codigo_turma && turma.codigo_turma.toLowerCase().includes(lowerCaseSearchTerm);
                 const cursoMatch = turma.curso && turma.curso.toLowerCase().includes(lowerCaseSearchTerm);
                 const turnoMatch = turma.turno && turma.turno.toLowerCase().includes(lowerCaseSearchTerm);
-                
+
                 return codigoTurmaMatch || cursoMatch || turnoMatch;
             });
 
@@ -306,7 +309,7 @@ function formatarData($data)
             }
 
             // Garante que a tabela é atualizada com o termo de pesquisa atual
-            updateTableDisplay(searchTurmaInput.value); 
+            updateTableDisplay(searchTurmaInput.value);
             turmaModal.style.display = 'none';
             document.body.classList.remove('modal-open');
         };
@@ -332,7 +335,7 @@ function formatarData($data)
             if (confirm(`Tem certeza que deseja excluir a turma com ID ${id} e código ${turmasData.find(t => t.id == id)?.codigo_turma}?`)) {
                 turmasData = turmasData.filter(t => t.id != id);
                 // Garante que a tabela é atualizada com o termo de pesquisa atual
-                updateTableDisplay(searchTurmaInput.value); 
+                updateTableDisplay(searchTurmaInput.value);
             }
         }
 
@@ -344,6 +347,26 @@ function formatarData($data)
         // Inicializa a exibição da tabela ao carregar a página
         // Chama a função com o valor inicial do campo de pesquisa (que será vazio)
         document.addEventListener('DOMContentLoaded', () => updateTableDisplay(searchTurmaInput.value));
+    </script>
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const dashboardContainer = document.querySelector('.dashboard-container');
+
+        // Função para abrir/fechar o menu
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            dashboardContainer.classList.toggle('sidebar-active');
+        });
+
+        // Função para fechar o menu ao clicar fora dele
+        dashboardContainer.addEventListener('click', (event) => {
+            // Verifica se o clique foi fora da sidebar e do botão de toggle
+            if (dashboardContainer.classList.contains('sidebar-active') && !sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
+                sidebar.classList.remove('active');
+                dashboardContainer.classList.remove('sidebar-active');
+            }
+        });
     </script>
 </body>
 

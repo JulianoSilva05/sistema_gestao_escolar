@@ -3,8 +3,10 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f0f2f5; /* Fundo mais claro para o dashboard */
-    display: flex; /* Usado para o layout lateral */
+    background-color: #f0f2f5;
+    /* Fundo mais claro para o dashboard */
+    display: flex;
+    /* Usado para o layout lateral */
     min-height: 100vh;
     color: #333;
 }
@@ -17,59 +19,85 @@ body {
 
 /* --- Estilos para o Login (manter caso haja uma página de login separada) --- */
 .login-container {
-    background-color: #ffffff; /* Fundo branco para o card de login */
-    padding: 40px; /* Espaçamento interno generoso */
-    border-radius: 8px; /* Cantos arredondados */
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Sombra suave para profundidade */
-    width: 400px; /* Largura fixa do container */
-    max-width: 90%; /* Garante que seja responsivo em telas menores */
-    text-align: center; /* Centraliza o conteúdo (incluindo a logo) */
-    box-sizing: border-box; /* Inclui padding e border na largura total */
+    background-color: #ffffff;
+    /* Fundo branco para o card de login */
+    padding: 40px;
+    /* Espaçamento interno generoso */
+    border-radius: 8px;
+    /* Cantos arredondados */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    /* Sombra suave para profundidade */
+    width: 400px;
+    /* Largura fixa do container */
+    max-width: 90%;
+    /* Garante que seja responsivo em telas menores */
+    text-align: center;
+    /* Centraliza o conteúdo (incluindo a logo) */
+    box-sizing: border-box;
+    /* Inclui padding e border na largura total */
 }
 
 .senai-logo {
-    width: 50%; /* Define a largura da imagem como 50% da largura do pai (.login-container) */
-    height: auto; /* Mantém a proporção da imagem */
-    display: block; /* Essencial para que margin: auto funcione e para a imagem ocupar sua própria linha */
-    margin: 0 auto 30px auto; /* Centraliza horizontalmente e adiciona margem inferior */
+    width: 50%;
+    /* Define a largura da imagem como 50% da largura do pai (.login-container) */
+    height: auto;
+    /* Mantém a proporção da imagem */
+    display: block;
+    /* Essencial para que margin: auto funcione e para a imagem ocupar sua própria linha */
+    margin: 0 auto 30px auto;
+    /* Centraliza horizontalmente e adiciona margem inferior */
 }
 
 /* Estilos para os grupos de input de login */
 .input-group {
-    margin-bottom: 20px; /* Espaço entre os campos */
-    text-align: left; /* Alinha labels e inputs à esquerda dentro do grupo */
+    margin-bottom: 20px;
+    /* Espaço entre os campos */
+    text-align: left;
+    /* Alinha labels e inputs à esquerda dentro do grupo */
 }
 
 .input-group label {
-    display: block; /* Cada label em sua própria linha */
-    margin-bottom: 8px; /* Espaço entre label e input */
-    color: #004B8D; /* Azul escuro do SENAI para as labels */
+    display: block;
+    /* Cada label em sua própria linha */
+    margin-bottom: 8px;
+    /* Espaço entre label e input */
+    color: #004B8D;
+    /* Azul escuro do SENAI para as labels */
     font-weight: bold;
     font-size: 15px;
 }
 
 .input-group input[type="text"],
 .input-group input[type="password"] {
-    width: 100%; /* Ocupa toda a largura disponível no container */
-    padding: 12px; /* Padding interno dos inputs */
-    border: 1px solid #CCC; /* Borda cinza clara */
-    border-radius: 5px; /* Bordas arredondadas */
+    width: 100%;
+    /* Ocupa toda a largura disponível no container */
+    padding: 12px;
+    /* Padding interno dos inputs */
+    border: 1px solid #CCC;
+    /* Borda cinza clara */
+    border-radius: 5px;
+    /* Bordas arredondadas */
     box-sizing: border-box;
     font-size: 16px;
-    background-color: #f9f9f9; /* Fundo levemente cinza */
+    background-color: #f9f9f9;
+    /* Fundo levemente cinza */
 }
 
 /* Efeitos ao focar nos inputs de login */
 .input-group input[type="text"]:focus,
 .input-group input[type="password"]:focus {
-    border-color: #007BFF; /* Borda azul ao focar */
-    outline: none; /* Remove o contorno padrão do navegador */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombra azul suave ao focar */
+    border-color: #007BFF;
+    /* Borda azul ao focar */
+    outline: none;
+    /* Remove o contorno padrão do navegador */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    /* Sombra azul suave ao focar */
 }
 
 /* Estilo do botão de submit de login */
 button[type="submit"] {
-    background-color: #007BFF; /* Azul mais claro do SENAI para o botão */
+    background-color: #007BFF;
+    /* Azul mais claro do SENAI para o botão */
     color: white;
     padding: 15px 25px;
     border: none;
@@ -77,129 +105,170 @@ button[type="submit"] {
     cursor: pointer;
     font-size: 18px;
     font-weight: bold;
-    width: 100%; /* Ocupa toda a largura do container */
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Transições suaves */
+    width: 100%;
+    /* Ocupa toda a largura do container */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    /* Transições suaves */
 }
 
 button[type="submit"]:hover {
-    background-color: #0056b3; /* Azul escuro no hover */
-    transform: translateY(-2px); /* Efeito de elevação sutil */
+    background-color: #0056b3;
+    /* Azul escuro no hover */
+    transform: translateY(-2px);
+    /* Efeito de elevação sutil */
 }
 
 /* Estilo para mensagens de erro */
 .error-message {
-    color: #D32F2F; /* Vermelho forte para erros */
+    color: #D32F2F;
+    /* Vermelho forte para erros */
     margin-top: 20px;
     font-weight: bold;
     font-size: 14px;
 }
 
-/* --- Estilos para o Menu Lateral (Sidebar) - Consolidado com as classes do dashboard --- */
+/* Sidebar de Navegação */
 .sidebar {
     width: 250px;
-    background-color: #004B8D; /* Azul escuro do SENAI */
+    background-color: #004B8D;
+    /* Azul escuro do SENAI */
     color: white;
     padding: 20px 0;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada, como no login-container */
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Ocupa toda a altura da viewport */
-    position: sticky; /* Fixa a sidebar na tela */
+    height: 100vh;
+    /* Ocupa exatamente 100% da altura da viewport */
+    position: fixed;
+    /* Fixa a sidebar na tela */
     top: 0;
     left: 0;
     z-index: 900;
+    overflow-y: auto;
+    /* Adiciona scroll se o conteúdo da sidebar for maior que a tela */
 }
 
 .sidebar-header {
     text-align: center;
-    margin-bottom: 30px; /* Espaço abaixo do cabeçalho, similar à margem da logo no login */
+    margin-bottom: 30px;
     padding: 0 15px;
 }
 
 .sidebar-logo {
-    max-width: 150px; /* Tamanho da logo, pode ajustar conforme o tamanho da sua imagem */
+    max-width: 150px;
     height: auto;
-    margin-bottom: 15px; /* Espaço entre a logo e o título/links */
-    display: block; /* Para permitir margin: auto se precisar centralizar mais */
+    margin-bottom: 15px;
+    display: block;
     margin-left: auto;
     margin-right: auto;
 }
 
 .sidebar-header h3 {
     margin: 0;
-    font-size: 1.3em; /* Tamanho da fonte do título */
-    color: #ffffff; /* Texto branco */
-    font-weight: bold; /* Negrito, como as labels e botões do login */
+    font-size: 1.3em;
+    color: #ffffff;
+    font-weight: bold;
 }
 
 .sidebar-nav {
-    flex-grow: 1; /* Ocupa o espaço restante */
-    overflow-y: auto; /* Adiciona scroll se necessário */
-    padding-right: 5px; /* Pequeno padding para evitar que a barra de rolagem toque os links */
+    flex-grow: 1;
+    /* Ocupa o espaço restante */
+    overflow-y: auto;
+    /* Adiciona scroll se necessário */
+    padding-right: 5px;
+    /* Pequeno padding para evitar que a barra de rolagem toque os links */
 }
 
 .sidebar-nav ul {
-    list-style: none; /* Remove marcadores de lista */
+    list-style: none;
     padding: 0;
     margin: 0;
 }
 
 .sidebar-nav li {
-    margin-bottom: 5px; /* Espaço entre os itens do menu */
+    margin-bottom: 5px;
 }
 
-.sidebar-nav li a { /* Renomeado de .menu-item para .sidebar-nav li a */
-    display: flex; /* Para alinhar ícone e texto */
-    align-items: center; /* Alinha verticalmente */
-    padding: 12px 20px; /* Padding interno dos links */
-    color: #ffffff; /* Texto branco */
-    text-decoration: none; /* Remove sublinhado */
+.sidebar-nav li a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: #ffffff;
+    text-decoration: none;
     font-size: 1em;
-    font-weight: 500; /* Pode ser ligeiramente mais leve que o negrito dos labels, ou bold se preferir */
-    transition: background-color 0.3s ease, color 0.3s ease; /* Transição suave para hover */
-    border-radius: 5px; /* Bordas arredondadas, como os inputs e botões do login */
-    margin: 0 10px; /* Margem lateral para "flutuar" dentro da sidebar */
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 5px;
+    margin: 0 10px;
 }
 
-.sidebar-nav li a i { /* Renomeado de .menu-item i para .sidebar-nav li a i */
-    margin-right: 15px; /* Espaço entre o ícone e o texto, um pouco mais que o anterior */
-    font-size: 1.1em; /* Tamanho do ícone */
-    width: 20px; /* Largura fixa para ícones, para alinhamento */
+.sidebar-nav li a i {
+    margin-right: 15px;
+    font-size: 1.1em;
+    width: 20px;
     text-align: center;
 }
 
 /* Estado de Hover */
-.sidebar-nav li a:hover { /* Renomeado de .menu-item:hover para .sidebar-nav li a:hover */
-    background-color: #007BFF; /* Azul mais claro do SENAI (cor do botão no login) */
+.sidebar-nav li a:hover {
+    background-color: #007BFF;
     color: #ffffff;
-    transform: translateX(5px); /* Desliza ligeiramente para a direita */
+    transform: translateX(5px);
 }
 
 /* Estado Ativo (para o item da página atual) */
-.sidebar-nav li a.active { /* Renomeado de .menu-item.active para .sidebar-nav li a.active */
-    background-color: #007BFF; /* Azul mais claro do SENAI */
+.sidebar-nav li a.active {
+    background-color: #007BFF;
     color: #ffffff;
-    font-weight: bold; /* Negrito */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra, como no login-container */
-    border-left: 5px solid #FFC107; /* Opcional: uma barra amarela de destaque na esquerda */
-    padding-left: 15px; /* Ajusta o padding devido à barra */
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-left: 5px solid #FFC107;
+    padding-left: 15px;
 }
 
 /* Estilo para o item "Sair" ou ações secundárias */
-.sidebar-nav li a.logout { /* Renomeado de .menu-item.logout para .sidebar-nav li a.logout */
-    margin-top: 30px; /* Mais espaço acima do botão Sair */
-    background-color: #DC3545; /* Vermelho para destaque de sair/perigo */
+.sidebar-nav li a.logout {
+    margin-top: 30px;
+    background-color: #DC3545;
 }
 
-.sidebar-nav li a.logout:hover { /* Renomeado de .menu-item.logout:hover para .sidebar-nav li a.logout:hover */
-    background-color: #c82333; /* Vermelho mais escuro no hover */
-    transform: none; /* Remove o efeito de deslize */
+.sidebar-nav li a.logout:hover {
+    background-color: #c82333;
+    transform: none;
 }
 
+/* Conteúdo Principal do Dashboard */
+.main-content {
+    margin-left: 250px;
+    /* Adiciona margem para que o conteúdo não fique por baixo da sidebar fixa */
+    padding: 30px;
+    background-color: #f0f2f5;
+    flex-grow: 1;
+    /* Ocupa o restante do espaço horizontal */
+}
+
+.main-header {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 15px;
+    display: flex;
+    /* Para alinhar título e botão */
+    justify-content: space-between;
+    /* Espaçamento entre os elementos */
+    align-items: center;
+    /* Alinha verticalmente */
+}
+
+.main-header h1 {
+    margin: 0;
+    color: #004B8D;
+    font-size: 2em;
+}
 
 /* --- Conteúdo Principal do Dashboard e Telas de Gestão --- */
 .main-content {
-    flex-grow: 1; /* Ocupa o espaço restante */
+    flex-grow: 1;
+    /* Ocupa o espaço restante */
     padding: 30px;
     background-color: #f0f2f5;
 }
@@ -208,9 +277,12 @@ button[type="submit"]:hover {
     margin-bottom: 30px;
     border-bottom: 1px solid #ddd;
     padding-bottom: 15px;
-    display: flex; /* Para alinhar título e botão */
-    justify-content: space-between; /* Espaçamento entre os elementos */
-    align-items: center; /* Alinha verticalmente */
+    display: flex;
+    /* Para alinhar título e botão */
+    justify-content: space-between;
+    /* Espaçamento entre os elementos */
+    align-items: center;
+    /* Alinha verticalmente */
 }
 
 .main-header h1 {
@@ -238,7 +310,8 @@ button[type="submit"]:hover {
 }
 
 .table-responsive {
-    overflow-x: auto; /* Garante scroll horizontal em telas pequenas */
+    overflow-x: auto;
+    /* Garante scroll horizontal em telas pequenas */
 }
 
 .data-table {
@@ -248,7 +321,8 @@ button[type="submit"]:hover {
 }
 
 .data-table thead tr {
-    background-color: #007BFF; /* Azul SENAI claro para o cabeçalho da tabela */
+    background-color: #007BFF;
+    /* Azul SENAI claro para o cabeçalho da tabela */
     color: white;
     text-align: left;
 }
@@ -261,31 +335,42 @@ button[type="submit"]:hover {
 }
 
 .data-table tbody tr:nth-child(even) {
-    background-color: #f2f2f2; /* Listras zebradas */
+    background-color: #f2f2f2;
+    /* Listras zebradas */
 }
 
 .data-table tbody tr:hover {
-    background-color: #e9ecef; /* Efeito hover na linha */
+    background-color: #e9ecef;
+    /* Efeito hover na linha */
 }
 
 .data-table .actions {
-    text-align: center; /* Centraliza botões de ação */
-    width: 120px; /* Largura fixa para a coluna de ações */
-    white-space: nowrap; /* Evita que os botões quebrem a linha */
+    text-align: center;
+    /* Centraliza botões de ação */
+    width: 120px;
+    /* Largura fixa para a coluna de ações */
+    white-space: nowrap;
+    /* Evita que os botões quebrem a linha */
 }
 
 /* Botões gerais (para o cabeçalho da tabela e modal) */
 .btn {
-    padding: 10px 20px; /* Ajustado para um padding mais consistente */
+    padding: 10px 20px;
+    /* Ajustado para um padding mais consistente */
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1em; /* Ajustado para um tamanho consistente */
+    font-size: 1em;
+    /* Ajustado para um tamanho consistente */
     font-weight: bold;
     transition: background-color 0.3s ease;
-    display: inline-flex; /* Para alinhar ícone e texto */
-    align-items: center; /* Alinha ícone e texto verticalmente */
-    justify-content: center; /* Centraliza conteúdo se for apenas ícone */
+    display: inline-flex;
+    /* Para alinhar ícone e texto */
+    align-items: center;
+    /* Alinha ícone e texto verticalmente */
+    justify-content: center;
+    /* Centraliza conteúdo se for apenas ícone */
+    gap: 10px;
 }
 
 .btn-primary {
@@ -298,7 +383,8 @@ button[type="submit"]:hover {
 }
 
 .btn-secondary {
-    background-color: #6c757d; /* Cinza */
+    background-color: #6c757d;
+    /* Cinza */
     color: white;
 }
 
@@ -307,26 +393,33 @@ button[type="submit"]:hover {
 }
 
 .btn-icon {
-    width: 35px; /* Tamanho fixo para botões de ícone */
+    width: 35px;
+    /* Tamanho fixo para botões de ícone */
     height: 35px;
-    padding: 0; /* Remove padding padrão, pois width/height fixam o tamanho */
+    padding: 0;
+    /* Remove padding padrão, pois width/height fixam o tamanho */
     font-size: 1em;
     margin: 0 3px;
-    border-radius: 50%; /* Torna-os circulares */
+    border-radius: 50%;
+    /* Torna-os circulares */
 }
 
 .btn-edit {
-    background-color: #28a745; /* Verde para editar (alterado de amarelo para maior contraste com o tema SENAI) */
+    background-color: #28a745;
+    /* Verde para editar (alterado de amarelo para maior contraste com o tema SENAI) */
     color: white;
 }
+
 .btn-edit:hover {
     background-color: #218838;
 }
 
 .btn-delete {
-    background-color: #dc3545; /* Vermelho para deletar */
+    background-color: #dc3545;
+    /* Vermelho para deletar */
     color: white;
 }
+
 .btn-delete:hover {
     background-color: #c82333;
 }
@@ -335,21 +428,31 @@ button[type="submit"]:hover {
 /* --- Estilos para o Modal (formulário de adicionar/editar) --- */
 /* Estes estilos foram atualizados para resolver o problema de corte */
 .modal {
-    display: none; /* Escondido por padrão, controlado pelo JS */
-    position: fixed; /* Fixa na tela */
-    z-index: 1000; /* Acima de outros elementos */
+    display: none;
+    /* Escondido por padrão, controlado pelo JS */
+    position: fixed;
+    /* Fixa na tela */
+    z-index: 1000;
+    /* Acima de outros elementos */
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto; /* Permite rolagem do overlay se necessário (fallback) */
-    background-color: rgba(0, 0, 0, 0.6); /* Fundo semi-transparente */
-    display: flex; /* Usado para centralizar com flexbox */
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    padding: 20px; /* Adiciona um padding para evitar que o modal toque as bordas */
-    box-sizing: border-box; /* Garante que padding não aumente o tamanho total */
-    animation: fadeIn 0.3s ease-out; /* Animação ao abrir */
+    overflow: auto;
+    /* Permite rolagem do overlay se necessário (fallback) */
+    background-color: rgba(0, 0, 0, 0.6);
+    /* Fundo semi-transparente */
+    /*display: flex; /* Usado para abrir no carregamento da pagina */
+    justify-content: center;
+    /* Centraliza horizontalmente */
+    align-items: center;
+    /* Centraliza verticalmente */
+    padding: 20px;
+    /* Adiciona um padding para evitar que o modal toque as bordas */
+    box-sizing: border-box;
+    /* Garante que padding não aumente o tamanho total */
+    animation: fadeIn 0.3s ease-out;
+    /* Animação ao abrir */
 }
 
 /* Garante que o ID específico para o modal de turma não entre em conflito, embora o modal genérico seja preferível */
@@ -363,7 +466,7 @@ button[type="submit"]:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
     z-index: 1000;
@@ -372,22 +475,31 @@ button[type="submit"]:hover {
 
 .modal-content {
     background-color: #fefefe;
-    margin: 0; /* Removido margin:auto para o flexbox centralizar */
+    margin: 0;
+    /* Removido margin:auto para o flexbox centralizar */
     padding: 30px;
     border: 1px solid #888;
     border-radius: 8px;
-    width: 90%; /* Largura do modal */
-    max-width: 800px; /* Largura máxima para telas maiores */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    width: 90%;
+    /* Largura do modal */
+    max-width: 800px;
+    /* Largura máxima para telas maiores */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     position: relative;
-    animation: slideInTop 0.3s ease-out; /* Animação ao abrir */
-    
+    animation: slideInTop 0.3s ease-out;
+    /* Animação ao abrir */
+
     /* PROPRIEDADES CRUCIAIS PARA O PROBLEMA DE CORTE */
-    max-height: 90vh; /* Limita a altura do conteúdo do modal a 90% da altura da viewport */
-    overflow-y: auto; /* Adiciona rolagem vertical APENAS ao conteúdo do modal, se necessário */
-    display: flex; /* Ajuda na organização interna do conteúdo */
-    flex-direction: column; /* Organiza os itens verticalmente */
-    box-sizing: border-box; /* Inclui padding na largura e altura */
+    max-height: 90vh;
+    /* Limita a altura do conteúdo do modal a 90% da altura da viewport */
+    overflow-y: auto;
+    /* Adiciona rolagem vertical APENAS ao conteúdo do modal, se necessário */
+    display: flex;
+    /* Ajuda na organização interna do conteúdo */
+    flex-direction: column;
+    /* Organiza os itens verticalmente */
+    box-sizing: border-box;
+    /* Inclui padding na largura e altura */
 }
 
 .modal-content h2 {
@@ -401,60 +513,79 @@ button[type="submit"]:hover {
 /* Adicione esta seção ao seu style_turmas.css */
 
 .filter-section {
-    margin-bottom: 20px;
     display: flex;
-    align-items: center;
-    gap: 10px; /* Espaço entre label e input */
-    flex-wrap: wrap; /* Permite que os itens quebrem linha em telas menores */
+    flex-wrap: wrap;
+    gap: 25px;
+    /* Aumenta o gap para dar mais espaço entre os grupos label/input */
+    margin-bottom: 20px;
+    align-items: flex-start;
+    /* Alinha os itens ao início (topo) do contêiner flex */
 }
 
-.filter-section label {
+.filter-group {
+    /* Nova classe para agrupar label e input/select */
+    display: flex;
+    flex-direction: column;
+    /* Coloca os itens um abaixo do outro */
+    flex: 1;
+    /* Permite que o grupo cresça para preencher o espaço */
+    min-width: 180px;
+    /* Largura mínima para cada grupo de filtro */
+}
+
+.filter-group label {
+    margin-bottom: 5px;
+    /* Espaço entre o label e o input/select */
     font-weight: bold;
-    color: #004B8D;
-    white-space: nowrap; /* Evita que a label quebre a linha */
+    /* Deixa o label em negrito para melhor visibilidade */
+    white-space: nowrap;
+    /* Evita que o texto do label quebre */
 }
 
-.search-input {
-    flex-grow: 1; /* Faz o input ocupar o espaço restante */
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1em;
-    box-sizing: border-box; /* Garante que padding e border sejam incluídos na largura */
+.filter-group .search-input {
+    width: 100%;
+    /* Garante que o input/select ocupe 100% da largura do seu grupo */
+    padding: 8px 12px;
+    /* Ajuste o padding se necessário */
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
-.search-input:focus {
-    border-color: #007BFF;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
-}
 
-/* Responsividade para o campo de pesquisa em telas pequenas */
+/* Opcional: Para melhor responsividade em telas menores */
 @media (max-width: 768px) {
     .filter-section {
-        flex-direction: column; /* Empilha label e input */
-        align-items: flex-start;
+        flex-direction: column;
+        /* Mantém em coluna em telas menores */
+        gap: 15px;
+        /* Ajusta o gap para telas menores */
     }
 
-    .search-input {
-        width: 100%; /* Ocupa 100% da largura disponível */
+    .filter-group {
+        width: 100%;
+        /* Ocupa a largura total em telas menores */
     }
 }
 
 .close-button {
     color: #aaa;
-    position: absolute; /* Posição absoluta dentro do modal-content */
+    position: absolute;
+    /* Posição absoluta dentro do modal-content */
     right: 15px;
-    top: 15px; /* Ajustei de 10px para 15px para um pouco mais de respiro */
-    font-size: 28px; /* Ajustei de 30px para 28px para ficar mais proporcional */
+    top: 15px;
+    /* Ajustei de 10px para 15px para um pouco mais de respiro */
+    font-size: 28px;
+    /* Ajustei de 30px para 28px para ficar mais proporcional */
     font-weight: bold;
     cursor: pointer;
-    transition: color 0.3s ease; /* Adicionei transição para hover */
+    transition: color 0.3s ease;
+    /* Adicionei transição para hover */
 }
 
 .close-button:hover,
 .close-button:focus {
-    color: #333; /* Cor mais escura no hover */
+    color: #333;
+    /* Cor mais escura no hover */
     text-decoration: none;
     cursor: pointer;
 }
@@ -473,11 +604,15 @@ button[type="submit"]:hover {
 
 .form-group input[type="text"],
 .form-group input[type="number"],
-.form-group input[type="email"], /* Adicionado input type="email" */
-.form-group input[type="date"], /* Adicionado input type="date" */
-.form-group textarea, /* Adicionado textarea */
+.form-group input[type="email"],
+/* Adicionado input type="email" */
+.form-group input[type="date"],
+/* Adicionado input type="date" */
+.form-group textarea,
+/* Adicionado textarea */
 .form-group select {
-    width: calc(100% - 22px); /* 100% menos o padding e bordas */
+    width: calc(100% - 22px);
+    /* 100% menos o padding e bordas */
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -485,7 +620,10 @@ button[type="submit"]:hover {
     font-size: 1em;
 }
 
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus { /* Adicionado textarea */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    /* Adicionado textarea */
     border-color: #007BFF;
     outline: none;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
@@ -495,19 +633,362 @@ button[type="submit"]:hover {
     margin-top: 20px;
     padding: 10px 20px;
     font-size: 1em;
-    width: auto; /* Botões não ocupam 100% aqui */
-    margin-right: 10px; /* Espaço entre botões */
+    width: auto;
+    /* Botões não ocupam 100% aqui */
+    margin-right: 10px;
+    /* Espaço entre botões */
 }
 
+/* Estilo para o calendario */
+/* Estilos para o Calendário dentro do modal */
+.calendario-reserva {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    background-color: #fff;
+}
+
+.calendario-reserva h4 {
+    color: #004B8D;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.calendario-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    text-align: center;
+}
+
+.calendario-grid div {
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.calendario-header {
+    font-weight: bold;
+    background-color: #007BFF;
+    color: white;
+    grid-column: span 7;
+    /* Ocupa todas as 7 colunas */
+    margin-bottom: 10px;
+}
+
+.calendario-dia-semana {
+    font-weight: bold;
+    color: #555;
+    background-color: #f0f2f5;
+}
+
+.calendario-dia {
+    background-color: #e2f0ff;
+    /* Dias disponíveis */
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.calendario-dia:hover {
+    background-color: #cce0ff;
+}
+
+.calendario-dia.ocupado {
+    background-color: #dc3545;
+    /* Vermelho para ocupado */
+    color: white;
+    cursor: not-allowed;
+}
+
+.calendario-dia.selecionado {
+    background-color: #FFC107;
+    /* Amarelo para selecionado */
+    color: #333;
+    font-weight: bold;
+    border: 1px solid #e0a800;
+}
+
+.reservar-form {
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.form-group-inline {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.form-group-inline label {
+    flex-basis: 100%;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-group-inline input,
+.form-group-inline select {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1em;
+    min-width: 150px;
+}
+
+/* FIM DO ESTILO PARA O CALENDARIO*/
+
+/* CALENDARIO*/
+/* Estilos existentes para telas maiores */
+.calendar-grid .day {
+    padding: 15px 5px;
+    /* Padding padrão para desktop */
+    min-height: 50px;
+}
+
+/* Reduz o padding e o tamanho da fonte em telas pequenas (smartphones) */
+@media (max-width: 576px) {
+    .calendar-grid .day {
+        padding: 8px 2px;
+        /* Padding menor */
+        min-height: 40px;
+    }
+
+    .calendar-grid .day .day-number {
+        font-size: 1rem;
+        /* Fonte menor */
+    }
+
+    .event-tag {
+        font-size: 0.7rem;
+        /* Reduz o tamanho da fonte das tags de evento */
+        padding: 2px 4px;
+        /* Reduz o padding das tags */
+    }
+
+    .calendar-grid .day.feriado::after {
+        font-size: 0.6rem;
+        /* Fonte menor para a tag 'Feriado' */
+    }
+
+    .calendar-header {
+        flex-direction: column;
+        /* Organiza os elementos em coluna */
+        gap: 10px;
+        /* Espaço entre os elementos */
+    }
+
+    .month-year-selects {
+        justify-content: center;
+        /* Centraliza os selects */
+    }
+}
+
+/* Estilos específicos para o calendário */
+.calendar-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.calendar-header button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #333;
+    padding: 5px;
+}
+
+.calendar-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #004d80;
+}
+
+.month-year-selects {
+    display: flex;
+    gap: 10px;
+}
+
+.month-year-selects select {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.calendar-grid .day-name {
+    font-weight: bold;
+    color: #004d80;
+    padding: 10px 0;
+}
+
+.calendar-grid .day {
+    background-color: #f7f7f7;
+    border-radius: 4px;
+    padding: 15px 5px;
+    min-height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.calendar-grid .day:hover {
+    background-color: #e9e9e9;
+}
+
+.calendar-grid .day.today {
+    background-color: #e0f2ff;
+    border: 2px solid #007bff;
+}
+
+.calendar-grid .day.feriado {
+    background-color: #ffe0e0;
+    border: 2px solid #ff0000;
+}
+
+.calendar-grid .day.feriado::after {
+    content: 'Feriado';
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    font-size: 0.75rem;
+    color: #d9534f;
+    font-weight: bold;
+}
+
+.calendar-grid .day .day-number {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.calendar-grid .empty-day {
+    background-color: #f7f7f7;
+    visibility: hidden;
+}
+
+/* FILTROS */
+
+/*Filtro do calendário*/
+.ccalendar-filters{
+  display: flex;
+  flex-direction: row; 
+  align-items: center; 
+  justify-content: flex-start; 
+  gap: 1rem; 
+}
+
+/* Estilos para os novos filtros */
+.filter-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    /* Espaço entre os filtros */
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.filter-section .filter-group {
+    display: flex;
+    flex-direction: column;
+    /* Label em cima do input/select */
+    gap: 5px;
+    flex-grow: 1;
+    /* Permite que os grupos de filtro cresçam */
+    min-width: 180px;
+    /* Largura mínima para cada filtro */
+}
+
+.filter-section label {
+    font-weight: bold;
+    color: #004B8D;
+}
+
+.filter-section input[type="text"],
+.filter-section input[type="date"],
+.filter-section select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box;
+    width: 100%;
+    /* Ocupa toda a largura do seu grupo */
+}
+
+.filter-section input:focus,
+.filter-section select:focus {
+    border-color: #007BFF;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+    .filter-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-section .filter-group {
+        min-width: auto;
+        /* Remove largura mínima em telas pequenas */
+        width: 100%;
+    }
+}
+
+/* FIM FILTRO*/
 /* Animações para o Modal */
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes slideInTop {
-    from { transform: translateY(-50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 /* Para bloquear o scroll do body quando o modal está aberto */
@@ -518,7 +999,8 @@ body.modal-open {
 /* --- KPIs (Key Performance Indicators) --- */
 .kpis {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Colunas responsivas */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    /* Colunas responsivas */
     gap: 20px;
     margin-bottom: 40px;
 }
@@ -529,7 +1011,8 @@ body.modal-open {
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
     text-align: center;
-    border-left: 5px solid #007BFF; /* Destaque com a cor do SENAI */
+    border-left: 5px solid #007BFF;
+    /* Destaque com a cor do SENAI */
 }
 
 .kpi-card h3 {
@@ -548,7 +1031,8 @@ body.modal-open {
 /* --- Seção de Gráficos --- */
 .charts-section {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Colunas responsivas para gráficos */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    /* Colunas responsivas para gráficos */
     gap: 20px;
     margin-bottom: 40px;
 }
@@ -560,7 +1044,8 @@ body.modal-open {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centraliza o gráfico */
+    align-items: center;
+    /* Centraliza o gráfico */
 }
 
 .chart-card h3 {
@@ -572,9 +1057,12 @@ body.modal-open {
 }
 
 .chart-card canvas {
-    max-width: 100%; /* Garante que o canvas não transborde */
-    height: 250px !important; /* Altura fixa para os gráficos */
-    width: 250px !important; /* Largura fixa para os gráficos (mantém proporção de pizza) */
+    max-width: 100%;
+    /* Garante que o canvas não transborde */
+    height: 250px !important;
+    /* Altura fixa para os gráficos */
+    width: 250px !important;
+    /* Largura fixa para os gráficos (mantém proporção de pizza) */
 }
 
 
@@ -605,16 +1093,22 @@ body.modal-open {
 }
 
 .stat-card.urgent {
-    border-left: 5px solid #DC3545; /* Vermelho para urgência */
+    border-left: 5px solid #DC3545;
+    /* Vermelho para urgência */
 }
-.stat-card.urgent h3, .stat-card.urgent p {
+
+.stat-card.urgent h3,
+.stat-card.urgent p {
     color: #DC3545;
 }
 
 .stat-card.warning {
-    border-left: 5px solid #FFC107; /* Amarelo para aviso */
+    border-left: 5px solid #FFC107;
+    /* Amarelo para aviso */
 }
-.stat-card.warning h3, .stat-card.warning p {
+
+.stat-card.warning h3,
+.stat-card.warning p {
     color: #FFC107;
 }
 
@@ -624,14 +1118,20 @@ body.modal-open {
     .dashboard-container {
         flex-direction: column;
     }
+
     .sidebar {
-        width: 100%; /* Sidebar ocupa toda a largura em telas pequenas */
-        position: relative; /* Deixa de ser sticky */
-        min-height: auto; /* Altura automática */
+        width: 100%;
+        /* Sidebar ocupa toda a largura em telas pequenas */
+        position: relative;
+        /* Deixa de ser sticky */
+        min-height: auto;
+        /* Altura automática */
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
+
     .sidebar-nav {
-        max-height: 300px; /* Altura máxima para o menu em telas pequenas, com scroll */
+        max-height: 300px;
+        /* Altura máxima para o menu em telas pequenas, com scroll */
         overflow-y: auto;
     }
 }
@@ -642,18 +1142,23 @@ body.modal-open {
         /* O `margin: 5% auto;` pode ser mantido aqui para responsividade em modais mais antigos. */
         /* No entanto, com `display:flex` e `align-items: center` no `.modal`, ele já centraliza. */
         /* A propriedade `max-height: 90vh;` já lida com o corte. */
-        margin: 0 auto; /* Remover o margin top/bottom se centralizado por flex */
-        padding: 20px; /* Reduzir padding em telas muito pequenas */
+        margin: 0 auto;
+        /* Remover o margin top/bottom se centralizado por flex */
+        padding: 20px;
+        /* Reduzir padding em telas muito pequenas */
     }
+
     .modal-content .btn {
         width: 100%;
         margin-right: 0;
         margin-bottom: 10px;
     }
+
     .main-header {
         flex-direction: column;
         align-items: flex-start;
     }
+
     .main-header h1 {
         margin-bottom: 15px;
     }
@@ -691,14 +1196,17 @@ body.modal-open {
     border-radius: 5px;
     background-color: #f9f9f9;
     min-height: 50px;
-    max-height: 150px; /* Limita a altura para scroll */
-    overflow-y: auto; /* Adiciona scroll quando necessário */
+    max-height: 150px;
+    /* Limita a altura para scroll */
+    overflow-y: auto;
+    /* Adiciona scroll quando necessário */
 }
 
 .turmas-associadas-list .tag-turma {
     display: inline-flex;
     align-items: center;
-    background-color: #e2f0ff; /* Azul claro */
+    background-color: #e2f0ff;
+    /* Azul claro */
     color: #004B8D;
     padding: 6px 10px;
     border-radius: 15px;
@@ -731,7 +1239,8 @@ body.modal-open {
 }
 
 .historico-aulas-list li {
-    background-color: #e6ffe6; /* Verde claro */
+    background-color: #e6ffe6;
+    /* Verde claro */
     color: #28a745;
     padding: 8px 12px;
     border-radius: 5px;
@@ -762,28 +1271,34 @@ body.modal-open {
 .add-turma-form,
 .add-aula-form {
     display: flex;
-    flex-wrap: wrap; /* Permite que os itens quebrem linha */
+    flex-wrap: wrap;
+    /* Permite que os itens quebrem linha */
     gap: 10px;
     align-items: flex-end;
     margin-top: 20px;
     padding: 15px;
     border: 1px dashed #cccccc;
     border-radius: 8px;
-    background-color: #f0f8ff; /* Um fundo levemente diferente */
+    background-color: #f0f8ff;
+    /* Um fundo levemente diferente */
 }
 
 .add-turma-form label,
 .add-aula-form label {
-    flex-basis: 100%; /* Faz a label ocupar toda a largura */
-    margin-bottom: -5px; /* Ajusta o espaço entre a label e o input/select */
+    flex-basis: 100%;
+    /* Faz a label ocupar toda a largura */
+    margin-bottom: -5px;
+    /* Ajusta o espaço entre a label e o input/select */
 }
 
 .add-turma-form select,
 .add-aula-form input[type="date"],
 .add-aula-form input[type="text"],
 .add-aula-form input[type="number"] {
-    flex-grow: 1; /* Ocupa o espaço restante */
-    min-width: 150px; /* Largura mínima para inputs */
+    flex-grow: 1;
+    /* Ocupa o espaço restante */
+    min-width: 150px;
+    /* Largura mínima para inputs */
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -801,4 +1316,181 @@ body.modal-open {
     padding: 8px 15px;
     font-size: 0.9em;
 }
+
 /* FIM INSTRUTOR */
+
+/* Botão do Menu Sanduíche */
+.menu-toggle {
+    display: none;
+    /* Inicia oculto, será exibido apenas em telas menores */
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #004B8D;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 1.5em;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
+    /* Garante que o botão fique acima de tudo */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.menu-toggle:hover {
+    transform: scale(1.05);
+}
+
+/* --- Responsividade com Menu Sanduíche --- */
+/* ------------------------------------------- */
+@media (max-width: 992px) {
+
+    /* Exibe o botão de alternância do menu em telas menores */
+    .menu-toggle {
+        display: block;
+    }
+
+    /* Esconde a sidebar e prepara-a para a transição */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: auto;
+        /* MUDANÇA: Altura automática para se adaptar ao conteúdo */
+        max-height: 100vh;
+        /* Garante que não ultrapasse a altura da tela, caso o menu seja muito grande */
+        width: 250px;
+        z-index: 999;
+        transform: translateX(-250px);
+        /* Move a sidebar para fora da tela */
+        transition: transform 0.3s ease-in-out;
+        overflow-y: hidden;
+        /* MUDANÇA: Oculta a rolagem, pois a intenção é exibir tudo */
+        padding-bottom: 20px;
+        /* Adiciona um respiro na parte inferior, se necessário */
+    }
+
+    /* Exibe a sidebar quando a classe 'active' é adicionada via JS */
+    .sidebar.active {
+        transform: translateX(0);
+        overflow-y: auto;
+        /* MANTIDO: Adiciona a rolagem APENAS se o conteúdo exceder a tela, para o caso de muitos itens */
+    }
+
+    .sidebar-nav {
+        /* Remove qualquer altura fixa para permitir que o conteúdo se ajuste */
+        max-height: none;
+        overflow-y: hidden;
+    }
+
+    .sidebar-nav li a {
+        /* MUDANÇA: Reduz o padding para que os itens ocupem menos espaço vertical */
+        padding: 10px 15px;
+    }
+
+    /* Remove a margem do conteúdo principal em telas menores */
+    .main-content {
+        margin-left: 0;
+    }
+
+    /* Adiciona uma camada de escurecimento sobre o conteúdo principal */
+    .dashboard-container.sidebar-active::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 998;
+    }
+
+    /* Ajusta o layout de cards e tabelas em telas médias */
+    .kpis,
+    .charts-section,
+    .quick-stats {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+    }
+}
+
+/* Ajustes para telas muito pequenas (smartphones) */
+@media (max-width: 576px) {
+    .main-content {
+        padding: 15px;
+    }
+
+    /* Em telas muito pequenas, todas as seções de cards voltam a ter 1 coluna */
+    .kpis,
+    .charts-section,
+    .quick-stats,
+    .charts-section,
+    .table-section {
+        grid-template-columns: 1fr;
+    }
+
+    .main-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .main-header .btn {
+        width: 100%;
+    }
+
+    .data-table th,
+    .data-table td {
+        font-size: 0.8em;
+        padding: 8px 10px;
+    }
+}
+
+
+@media (max-width: 768px) {
+
+   
+    .data-table th:nth-child(1),
+    .data-table th:nth-child(3),
+    .data-table th:nth-child(4),
+    .data-table th:nth-child(5),
+    .data-table th:nth-child(6),
+    .data-table th:nth-child(7) {
+        display: none;
+    }
+
+    
+    .data-table td:nth-child(1),
+    .data-table td:nth-child(3),
+    .data-table td:nth-child(4),
+    .data-table td:nth-child(5),
+    .data-table td:nth-child(6),
+    .data-table td:nth-child(7) {
+        display: none;
+    }
+
+    
+    .data-table .actions {
+        display: block;
+        
+        text-align: center;
+        width: auto;
+    }
+
+    .data-table .actions .btn-edit,
+    .data-table .actions .btn-delete {
+        display: none;
+        
+    }
+} 
+
+
+@media (max-width: 768px) {
+    .btn-mobile-view {
+        display: inline-flex !important;
+        background-color: #007bff;
+        color: white;
+    }
+}

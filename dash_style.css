@@ -246,56 +246,101 @@ body {
     color: #FFC107;
 }
 
-/* Responsividade Básica */
-@media (max-width: 768px) {
-    .dashboard-container {
-        flex-direction: column;
-    }
+/* Botão do Menu Sanduíche */
+.menu-toggle {
+    display: none; /* Inicia oculto, será exibido apenas em telas menores */
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #004B8D;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 1.5em;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000; /* Garante que o botão fique acima de tudo */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
 
+/* Modificador para a sidebar quando ela está oculta */
+.sidebar.hidden {
+    transform: translateX(-100%);
+}
+
+/* Responsividade Avançada com Menu Sanduíche */
+@media (max-width: 992px) {
+    /* Esconde a sidebar e mostra o botão sanduíche */
     .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 250px;
+        z-index: 999;
+        transform: translateX(-250px); /* Move a sidebar para fora da tela */
+        transition: transform 0.3s ease-in-out;
+    }
+
+    /* Exibe a sidebar quando a classe 'active' é adicionada via JS */
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .menu-toggle {
+        display: block; /* Mostra o botão sanduíche */
+    }
+
+    /* Adiciona uma camada de escurecimento sobre o conteúdo principal */
+    .dashboard-container.sidebar-active::after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
         width: 100%;
-        position: relative; /* Sidebar deixa de ser fixa em telas pequenas */
-        height: auto; /* Altura automática em telas pequenas */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        padding: 15px 0;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 998;
     }
-
-    .sidebar-header {
-        margin-bottom: 20px;
-    }
-
+    
     .main-content {
-        margin-left: 0; /* Remove a margem quando a sidebar não está fixa */
+        margin-left: 0; /* Remove a margem do conteúdo principal */
         padding: 20px;
     }
 
-    /* Em telas pequenas, todas as seções de cards voltam a ter 1 coluna */
+    /* Ajusta o layout de cards para 2 colunas em telas médias */
     .kpis, .charts-section, .quick-stats {
-        grid-template-columns: 1fr;
-    }
-
-    /* Seções de gráficos em telas menores */
-    .charts-section .chart-card canvas {
-        height: 200px !important; /* Altura menor para gráficos em mobile */
-        width: 200px !important;
-    }
-}
-
-/* Novo Media Query para telas muito pequenas (ex: mobile em retrato) */
-@media (max-width: 480px) {
-    .main-content {
-        padding: 15px;
-    }
-
-    .kpi-card, .chart-card, .stat-card {
-        padding: 20px; /* Reduz o padding dos cards para economizar espaço */
-    }
-
-    .kpi-card h3, .chart-card h3, .stat-card h3 {
-        font-size: 1em; /* Fonte um pouco menor para títulos de card */
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
     }
 
     .kpi-card p, .stat-card p {
-        font-size: 1.8em; /* Fonte um pouco menor para números de KPI */
+        font-size: 2em;
     }
+}
+
+/* Ajustes para telas pequenas (smartphones) */
+@media (max-width: 576px) {
+    .main-content {
+        padding: 15px;
+    }
+    
+    /* Em telas muito pequenas, todas as seções de cards voltam a ter 1 coluna */
+    .kpis, .charts-section, .quick-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .kpi-card h3, .chart-card h3, .stat-card h3 {
+        font-size: 1em;
+    }
+    
+    .kpi-card p, .stat-card p {
+        font-size: 1.8em;
+    }
+}
+
+/* Correção para o !important em telas pequenas (agora responsivo) */
+.charts-section .chart-card canvas {
+    height: auto !important; /* Retorna ao padrão para que o gráfico seja responsivo */
+    width: 100% !important;
 }
