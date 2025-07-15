@@ -893,6 +893,235 @@ button[type="submit"]:hover {
     color: #333;
 }
 
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Estilos do calendário */
+.calendar-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.calendar-header button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #333;
+    padding: 5px;
+}
+
+.calendar-header h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #004d80;
+}
+
+.month-year-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.month-year-selects {
+    display: flex;
+    gap: 10px;
+}
+
+
+.calendar-filters select {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.month-year-selects select {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+/* Estilo para o novo campo de busca */
+.calendar-search {
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.calendar-search input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.calendar-grid .day-name {
+    font-weight: bold;
+    color: #004d80;
+    padding: 10px 0;
+}
+
+.calendar-grid .day {
+    background-color: #f7f7f7;
+    border-radius: 4px;
+    padding: 15px 5px;
+    min-height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.calendar-grid .day:hover {
+    background-color: #e9e9e9;
+}
+
+.calendar-grid .day.today {
+    background-color: #e0f2ff;
+    border: 2px solid #007bff;
+}
+
+.calendar-grid .day.feriado {
+    background-color: #ffe0e0;
+    border: 2px solid #ff0000;
+}
+
+.calendar-grid .day .day-number {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.calendar-grid .day .event-tag {
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    text-align: left;
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+
+.calendar-grid .day .feriado-tag {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Novas cores para os turnos */
+.calendar-grid .day .aula-manha {
+    background-color: rgb(235, 255, 147);
+    /* Verde claro */
+    color: #155724;
+}
+
+.calendar-grid .day .aula-tarde {
+    background-color: rgb(78, 203, 252);
+    /* Verde um pouco mais escuro */
+    color: #155724;
+}
+
+.calendar-grid .day .aula-noite {
+    background-color: rgb(68, 96, 175);
+    /* Verde mais escuro */
+    color: rgb(255, 255, 255);
+}
+
+.calendar-grid .empty-day {
+    background-color: #f7f7f7;
+    visibility: hidden;
+}
+
 .calendar-grid .empty-day {
     background-color: #f7f7f7;
     visibility: hidden;
@@ -901,12 +1130,12 @@ button[type="submit"]:hover {
 /* FILTROS */
 
 /*Filtro do calendário*/
-.ccalendar-filters{
-  display: flex;
-  flex-direction: row; 
-  align-items: center; 
-  justify-content: flex-start; 
-  gap: 1rem; 
+.calendar-filters {
+    display: flex;
+    flex-direction: row;
+    align-items: space-between;
+    justify-content: space-between;
+    gap: 1rem;
 }
 
 /* Estilos para os novos filtros */
@@ -965,6 +1194,12 @@ button[type="submit"]:hover {
         /* Remove largura mínima em telas pequenas */
         width: 100%;
     }
+    .calendar-filters {
+    
+    flex-direction: column;
+   
+}
+
 }
 
 /* FIM FILTRO*/
@@ -1451,7 +1686,7 @@ body.modal-open {
 
 @media (max-width: 768px) {
 
-   
+
     .data-table th:nth-child(1),
     .data-table th:nth-child(3),
     .data-table th:nth-child(4),
@@ -1461,7 +1696,7 @@ body.modal-open {
         display: none;
     }
 
-    
+
     .data-table td:nth-child(1),
     .data-table td:nth-child(3),
     .data-table td:nth-child(4),
@@ -1471,10 +1706,10 @@ body.modal-open {
         display: none;
     }
 
-    
+
     .data-table .actions {
         display: block;
-        
+
         text-align: center;
         width: auto;
     }
@@ -1482,9 +1717,9 @@ body.modal-open {
     .data-table .actions .btn-edit,
     .data-table .actions .btn-delete {
         display: none;
-        
+
     }
-} 
+}
 
 
 @media (max-width: 768px) {
