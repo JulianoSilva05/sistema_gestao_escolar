@@ -550,15 +550,16 @@ button[type="submit"]:hover {
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+
 /*busca por UC na pagina de gestão de cursos */
 .uc-search-input {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-        }
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
 
 /* Opcional: Para melhor responsividade em telas menores */
 @media (max-width: 768px) {
@@ -756,23 +757,443 @@ button[type="submit"]:hover {
 
 /* CALENDARIO*/
 /* Estilos existentes para telas maiores */
+
+
+
+/* Estilos do Calendário Principal */
+.calendar-container {
+    width: 130%;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
+}
+
+.calendar-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.month-year-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.month-year-selects {
+    display: flex;
+    gap: 5px;
+}
+
+.calendar-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    flex-grow: 1;
+    /* Permite que os filtros ocupem espaço */
+    justify-content: flex-start;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 150px;
+    /* Garante que os filtros não fiquem muito pequenos */
+}
+
+.calendar-filters label {
+    font-weight: bold;
+    color: #555;
+    font-size: 0.875rem;
+}
+
+.calendar-filters select,
+.calendar-search input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 0.9em;
+}
+
+.calendar-search {
+    flex-grow: 1;
+    min-width: 200px;
+    /* Garante tamanho mínimo para a busca */
+}
+
+.btn-group {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    text-align: center;
+}
+
+.day-name {
+    font-weight: bold;
+    background-color: #e2e8f0;
+    padding: 10px 0;
+    border-radius: 5px;
+    color: #334155;
+}
+
+.day,
+.instructor-day {
+    min-height: 100px;
+    /* Aumenta a altura para caber mais informações */
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    background-color: #f8fafc;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.day:hover,
+.instructor-day:hover {
+    background-color: #f0f4f8;
+}
+
+.day-number {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #1f2937;
+}
+
+.empty-day {
+    background-color: #f0f0f0;
+    border: 1px solid #f0f0f0;
+    cursor: default;
+}
+
+.feriado {
+    background-color: #fee2e2;
+    border-color: #fca5a5;
+}
+
+.event-tag {
+    font-size: 0.75em;
+    padding: 3px 6px;
+    border-radius: 3px;
+    margin-top: 3px;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.feriado-tag {
+    background-color: #ef4444;
+    color: white;
+}
+
+.aula-manha {
+    background-color: #bfdbfe;
+    color: #1e40af;
+}
+
+.aula-tarde {
+    background-color: #fcd34d;
+    color: #92400e;
+}
+
+.aula-noite {
+    background-color: #a78bfa;
+    color: #4c1d95;
+}
+
+.today {
+    border: 2px solid #2563eb;
+    background-color: #e0f2fe;
+}
+
+/* Novo Calendário de Disponibilidade de Instrutores */
+.instructor-calendar-section {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-top: 1.5rem;
+}
+
+.instructor-calendar-section h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 1rem;
+}
+
+.instructor-calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    text-align: center;
+}
+
+.instructor-day {
+    min-height: 80px;
+    /* Um pouco menor que o principal */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.9em;
+    font-weight: 500;
+}
+
+.instructor-day.free {
+    background-color: #d1fae5;
+    /* Verde claro */
+    border-color: #6ee7b7;
+    color: #065f46;
+}
+
+.instructor-day.occupied {
+    background-color: #fef3c7;
+    /* Amarelo claro */
+    border-color: #fcd34d;
+    color: #92400e;
+}
+
+.instructor-day.conflict {
+    background-color: #fee2e2;
+    /* Vermelho claro */
+    border-color: #fca5a5;
+    color: #dc2626;
+    font-weight: bold;
+}
+
+.instructor-day-summary {
+    font-size: 0.8em;
+    margin-top: 5px;
+    line-height: 1.2;
+}
+
+/* Modal de Detalhes Diários dos Instrutores */
+.daily-instructor-details-modal-content {
+    max-width: 700px;
+}
+
+.daily-instructor-details-modal-content h2 {
+    margin-bottom: 1rem;
+}
+
+.daily-instructor-details-list {
+    list-style: none;
+    padding: 0;
+}
+
+.daily-instructor-details-list li {
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.daily-instructor-details-list li strong {
+    color: #1f2937;
+}
+
+.daily-instructor-details-list li .status-text {
+    font-weight: 600;
+}
+
+.daily-instructor-details-list li .status-text.occupied-text {
+    color: #d97706;
+    /* Amarelo */
+}
+
+.daily-instructor-details-list li .status-text.free-text {
+    color: #10b981;
+    /* Verde */
+}
+
+.daily-instructor-details-list li .status-text.conflict-text {
+    color: #dc2626;
+    /* Vermelho */
+}
+
+.daily-instructor-details-list li .class-info {
+    font-size: 0.875rem;
+    color: #4b5563;
+    margin-left: 1rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        transform: translateX(-100%);
+        padding-bottom: 0;
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .main-content {
+        padding-top: 0;
+    }
+
+    .main-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .main-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .calendar-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .calendar-filters {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .filter-group {
+        width: 100%;
+    }
+
+    .calendar-filters select,
+    .calendar-search input {
+        width: 100%;
+    }
+
+    .btn-group {
+        margin-left: 0;
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .calendar-grid,
+    .instructor-calendar-grid {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    }
+
+    .day,
+    .instructor-day {
+        min-height: 80px;
+    }
+}
+
+/* Estilos para impressão */
+@media print {
+
+    .sidebar,
+    .menu-toggle,
+    .main-header,
+    .calendar-header .btn-group,
+    .calendar-search,
+    .calendar-filters,
+    .instructor-calendar-section .calendar-day-header {
+        /* Esconde cabeçalho do instrutor na impressão */
+        display: none;
+    }
+
+    .main-content {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background-color: #fff;
+        box-shadow: none;
+    }
+
+    .calendar-container,
+    .instructor-calendar-section {
+        box-shadow: none;
+        border: none;
+        padding: 0.5rem;
+    }
+
+    .day,
+    .instructor-day {
+        border: 1px solid #eee;
+        min-height: 60px;
+        font-size: 0.8em;
+    }
+
+    .day-number {
+        font-size: 1em;
+    }
+
+    .event-tag {
+        font-size: 0.6em;
+        padding: 1px 3px;
+    }
+
+    .instructor-day-summary {
+        font-size: 0.7em;
+    }
+
+    .daily-instructor-details-modal {
+        display: none !important;
+        /* Garante que o modal não apareça na impressão */
+    }
+}
+
 .calendar-grid .day {
     padding: 15px 5px;
     /* Padding padrão para desktop */
     min-height: 50px;
 }
-.week-row { /* Ou qualquer seletor para uma linha de dias */
+
+.week-row {
+    /* Ou qualquer seletor para uma linha de dias */
     display: flex;
-    justify-content: space-around; /* Distribui o espaço uniformemente entre os itens */
+    justify-content: space-around;
+    /* Distribui o espaço uniformemente entre os itens */
     /* Ou: justify-content: space-between; para que os itens extremos fiquem nas bordas */
     /* Ou: justify-content: flex-start; com margens ou padding nos itens */
-    flex-wrap: wrap; /* Permite que os itens quebrem para a próxima linha se não houver espaço suficiente */
+    flex-wrap: wrap;
+    /* Permite que os itens quebrem para a próxima linha se não houver espaço suficiente */
     /* Outras propriedades existentes */
 }
 
 .day {
-    flex: 1; /* Permite que cada dia cresça e encolha para ocupar o espaço disponível */
-    min-width: 0; /* Essencial para flex-items não estourarem o contêiner quando o conteúdo é grande */
+    flex: 1;
+    /* Permite que cada dia cresça e encolha para ocupar o espaço disponível */
+    min-width: 0;
+    /* Essencial para flex-items não estourarem o contêiner quando o conteúdo é grande */
     text-align: center;
     padding: 10px 0;
     /* Outras propriedades existentes */
@@ -873,19 +1294,7 @@ button[type="submit"]:hover {
     padding: 10px 0;
 }
 
-.calendar-grid .day {
-    background-color: #f7f7f7;
-    border-radius: 4px;
-    padding: 15px 5px;
-    min-height: 50px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-end;
-    position: relative;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
+
 
 .calendar-grid .day:hover {
     background-color: #e9e9e9;
@@ -1218,11 +1627,12 @@ button[type="submit"]:hover {
         /* Remove largura mínima em telas pequenas */
         width: 100%;
     }
+
     .calendar-filters {
-    
-    flex-direction: column;
-   
-}
+
+        flex-direction: column;
+
+    }
 
 }
 
