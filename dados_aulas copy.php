@@ -1,4 +1,7 @@
 <?php
+
+header('Content-Type: application/json');
+
 // Simulação de dados de turmas (em um ambiente real, viriam de um banco de dados)
 $turmas = [
     [
@@ -32,7 +35,7 @@ $turmas = [
         'id' => 4,
         'codigo_turma' => 'AI-GEI-07-M-25-12800',
         'data_inicio' => '2025-04-14',
-        'data_termino' => '2026-04-22',
+        'data_termino' => '',
         'turno' => 'MANHA',
         'num_alunos' => 32,
         'curso' => 'Aprendizagem Industrial em Gestão Industrial'
@@ -40,8 +43,8 @@ $turmas = [
     [
         'id' => 5,
         'codigo_turma' => 'AI-GEI-08-T-25-12800',
-         'data_inicio' => '2025-04-14',
-        'data_termino' => '2026-04-22',
+        'data_inicio' => '',
+        'data_termino' => '',
         'turno' => 'TARDE',
         'num_alunos' => 31,
         'curso' => 'Aprendizagem Industrial em Gestão Industrial'
@@ -77,7 +80,7 @@ $turmas = [
         'id' => 9,
         'codigo_turma' => 'AI-MMA-02-M-23-12800',
         'data_inicio' => '2023-07-17',
-        'data_termino' => '2025-07-16',
+        'data_termino' => '2025-07-15',
         'turno' => 'MANHA',
         'num_alunos' => 21,
         'curso' => 'APRENDIZAGEM INDUSTRIAL EM MANUTENÇÃO MECÂNICA DE AUTOMÓVEIS'
@@ -95,7 +98,7 @@ $turmas = [
         'id' => 11,
         'codigo_turma' => 'AI-ADM-04-M-23-12800_',
         'data_inicio' => '2023-07-17',
-        'data_termino' => '2025-07-16',
+        'data_termino' => '2025-07-15',
         'turno' => 'MANHA',
         'num_alunos' => 21,
         'curso' => 'APRENDIZAGEM INDUSTRIAL EM PROCESSOS ADMINISTRATIVOS'
@@ -140,7 +143,7 @@ $turmas = [
         'id' => 16,
         'codigo_turma' => 'AI-MMM-01-24-M-12800',
         'data_inicio' => '2023-07-17',
-        'data_termino' => '2025-07-16',
+        'data_termino' => '2025-07-15',
         'turno' => 'MANHA',
         'num_alunos' => 20,
         'curso' => 'APRENDIZAGEM MANUTENÇÃO MECÂNICA DE MÁQUINAS INDUSTRIAIS'
@@ -158,7 +161,7 @@ $turmas = [
         'id' => 18,
         'codigo_turma' => 'AI-AUT-01-T-23-12800_',
         'data_inicio' => '2023-07-17',
-        'data_termino' => '2025-07-16',
+        'data_termino' => '2025-07-15',
         'turno' => 'TARDE',
         'num_alunos' => '',
         'curso' => 'APRENDIZAGEM INDUSTRIAL EM ELETRICIDADE DE AUTOMÓVEIS'
@@ -317,4 +320,104 @@ $turmas = [
         'curso' => 'TÉCNICO EM AUTOMAÇÃO INDUSTRIAL'
     ]
 ];
+
+$aulasData = [];
+
+// Mapeamento de cursos para área e unidade curricular (UC)
+// Isso é uma simplificação, você pode expandir essa lógica
+$mapeamento_curso = [
+    'Aperfeiçoamento em Operação Segura de Empilhadeira' => ['area' => 'Mecânica', 'uc' => 'Operação de Empilhadeira'],
+    'Aperfeiçoamento em Lubrificação Industrial' => ['area' => 'Mecânica', 'uc' => 'Lubrificação Industrial'],
+    'Empilhadeira' => ['area' => 'Mecânica', 'uc' => 'Operação de Empilhadeira'],
+    'Aprendizagem Industrial em Gestão Industrial' => ['area' => 'Gestão', 'uc' => 'Gestão Industrial'],
+    'Aprendizagem Industrial Eletricista Industrial' => ['area' => 'Eletroeletrônica', 'uc' => 'Eletricista Industrial'],
+    'APRENDIZAGEM INDUSTRIAL EM MANUTENÇÃO MECÂNICA DE AUTOMÓVEIS' => ['area' => 'Mecânica', 'uc' => 'Manutenção Automotiva'],
+    'APRENDIZAGEM INDUSTRIAL EM PROCESSOS ADMINISTRATIVOS' => ['area' => 'Gestão', 'uc' => 'Processos Administrativos'],
+    'APRENDIZAGEM INDUSTRIAL EM CONTROLE DE QUALIDADE' => ['area' => 'Gestão', 'uc' => 'Controle de Qualidade'],
+    'TÉCNICO EM DESENVOLVIMENTO DE SISTEMAS' => ['area' => 'Tecnologia da Informação', 'uc' => 'Desenvolvimento de Sistemas'],
+    'TÉCNICO EM INFORMÁTICA PARA INTERNET' => ['area' => 'Tecnologia da Informação', 'uc' => 'Informática para Internet'],
+    'APRENDIZAGEM MANUTENÇÃO MECÂNICA DE MÁQUINAS INDUSTRIAIS' => ['area' => 'Mecânica', 'uc' => 'Manutenção de Máquinas'],
+    'APRENDIZAGEM INDUSTRIAL EM ELETRICIDADE DE AUTOMÓVEIS' => ['area' => 'Eletroeletrônica', 'uc' => 'Eletricidade Automotiva'],
+    'APRENDIZAGEM INDUSTRIAL EM MANUTENÇÃO MECÂNICA DE MÁQUINAS INDUSTRIAIS' => ['area' => 'Mecânica', 'uc' => 'Manutenção de Máquinas'],
+    'APRENDIZAGEM INDUSTRIAL EM OPERAÇÃO DE MÁQUINAS FERRAMENTAS CONVENCIONAIS' => ['area' => 'Mecânica', 'uc' => 'Operação de Máquinas'],
+    'APRENDIZAGEM INDUSTRIAL EM ELETRICISTA INDUSTRIAL' => ['area' => 'Eletroeletrônica', 'uc' => 'Eletricista Industrial'],
+    'APRENDIZAGEM INDUSTRIAL EM MANUTENÇÃO ELETROMECÂNICA' => ['area' => 'Eletroeletrônica', 'uc' => 'Manutenção Eletromecânica'],
+    'TÉCNICO EM MECÂNICA' => ['area' => 'Mecânica', 'uc' => 'Mecânica'],
+    'TÉCNICO EM ELETROMECÂNICA' => ['area' => 'Eletroeletrônica', 'uc' => 'Eletromecânica'],
+    'TÉCNICO EM SEGURANÇA DO TRABALHO' => ['area' => 'Gestão', 'uc' => 'Segurança do Trabalho'],
+    'TÉCNICO EM ELETROTÉCNICA' => ['area' => 'Eletroeletrônica', 'uc' => 'Eletrotécnica'],
+    'TÉCNICO EM AUTOMAÇÃO INDUSTRIAL' => ['area' => 'Eletroeletrônica', 'uc' => 'Automação Industrial'],
+];
+
+// Funções utilitárias para mapeamento e padronização
+function getAreaUc($curso, $mapping) {
+    $curso = trim(strtoupper($curso));
+    foreach ($mapping as $key => $values) {
+        if (strpos(strtoupper($key), $curso) !== false || strpos($curso, strtoupper($key)) !== false) {
+            return $values;
+        }
+    }
+    return ['area' => 'Não Definida', 'uc' => $curso];
+}
+
+function normalizeTurno($turno) {
+    switch (strtoupper($turno)) {
+        case 'MANHA':
+            return 'Manhã';
+        case 'TARDE':
+            return 'Tarde';
+        case 'NOITE':
+            return 'Noite';
+        case 'INTEGRAL':
+        case 'TARDE/NOITE':
+            return 'Integral'; // Ou outro termo que você preferir
+        default:
+            return 'Indefinido';
+    }
+}
+
+// Data de referência (hoje) para turmas em andamento
+$today = new DateTime('2025-07-15');
+
+foreach ($turmas as $turma) {
+    // Pula turmas sem data de início
+    if (empty($turma['data_inicio'])) {
+        continue;
+    }
+
+    $startDate = new DateTime($turma['data_inicio']);
+
+    // Se a data de término estiver vazia, assume que a turma está em andamento até hoje
+    $endDate = empty($turma['data_termino']) ? $today : new DateTime($turma['data_termino']);
+    
+    $interval = new DateInterval('P1D');
+    $period = new DatePeriod($startDate, $interval, $endDate->modify('+1 day'));
+
+    foreach ($period as $date) {
+        // Pula sábados (6) e domingos (0)
+        if ($date->format('w') == 0 || $date->format('w') == 6) {
+            continue;
+        }
+
+        // Obtém a área e UC usando a função de mapeamento
+        $cursoInfo = getAreaUc($turma['curso'], $mapeamento_curso);
+
+        $aulasData[] = [
+            'date' => $date->format('Y-m-d'),
+            'codigoTurma' => $turma['codigo_turma'],
+            /**MUDAR AQUI PARA APARECER O NOME DO INSTRUTOR */
+            'instrutor' => 'Instrutor ' . $turma['id'], // Placeholder
+            'sala' => 'Sala ' . rand(1, 10), // Placeholder
+            'uc' => $cursoInfo['uc'],
+            'turno' => normalizeTurno($turma['turno']),
+            'area' => $cursoInfo['area']
+        ];
+    }
+}
+
+echo json_encode($aulasData, JSON_PRETTY_PRINT);
+
+
+
+
 ?>

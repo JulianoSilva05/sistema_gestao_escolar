@@ -321,10 +321,7 @@ $turmas = [
     ]
 ];
 
-$aulasData = [];
-
 // Mapeamento de cursos para área e unidade curricular (UC)
-// Isso é uma simplificação, você pode expandir essa lógica
 $mapeamento_curso = [
     'Aperfeiçoamento em Operação Segura de Empilhadeira' => ['area' => 'Mecânica', 'uc' => 'Operação de Empilhadeira'],
     'Aperfeiçoamento em Lubrificação Industrial' => ['area' => 'Mecânica', 'uc' => 'Lubrificação Industrial'],
@@ -349,6 +346,48 @@ $mapeamento_curso = [
     'TÉCNICO EM AUTOMAÇÃO INDUSTRIAL' => ['area' => 'Eletroeletrônica', 'uc' => 'Automação Industrial'],
 ];
 
+// --- INÍCIO DA ALTERAÇÃO ---
+// Simulação de dados de instrutores
+$instrutores = [
+    'APOSEM157N' => 'João da Silva',
+    'APLUBRIN1IN' => 'Maria de Souza',
+    'APOSEM156N' => 'João da Silva',
+    'AI-GEI-07-M-25-12800' => 'Pedro Oliveira',
+    'AI-GEI-08-T-25-12800' => 'Ana Costa',
+    'AI-ETR-03-M-25-12800' => 'Carlos Pereira',
+    'AI-ETR-02-T-25-12800' => 'Fernanda Lima',
+    'AI-MMA-01-M-23-12800_' => 'Ricardo Almeida',
+    'AI-MMA-02-M-23-12800' => 'Ricardo Almeida',
+    'AI-ADM-03-M-23-12800_' => 'Gabriela Santos',
+    'AI-ADM-04-M-23-12800_' => 'Gabriela Santos',
+    'AI-QUA-02-M-23-12800_' => 'Juliana Rocha',
+    'AI-QUA-03-M-23-12800_' => 'Juliana Rocha',
+    'HT-SIS-01-M-24-12800_' => 'Felipe Martins',
+    'HT-IPI-01-M-24-12800_' => 'Luana Ribeiro',
+    'AI-MMM-01-24-M-12800' => 'André Fernandes',
+    'AI-MMA-03-T-23-12800_' => 'Ricardo Almeida',
+    'AI-AUT-01-T-23-12800_' => 'Marcos Vinicius',
+    'AI-AUT-02-T-23-12800_' => 'Marcos Vinicius',
+    'AI-AUT-03-T-23-12800_' => 'Marcos Vinicius',
+    'AI-MMM-07-T-23-12800_' => 'André Fernandes',
+    'AI-MMM-08-T-23-12800_' => 'André Fernandes',
+    'AI-MFC-02-T-23-12800_' => 'Lucas Barbosa',
+    'AI-ETR-02-T-24-12800_' => 'Carlos Pereira',
+    'AI-MEL-01-T-24-12800_' => 'Daniela Castro',
+    'AI-GEI-06-T-24-12800_' => 'Pedro Oliveira',
+    'HT-MEC-02-T-24-12800_' => 'Rafael Costa',
+    'HT-ELM-01-T-24-12800_' => 'Daniela Castro',
+    'AI-MEL-01-T-25-12800' => 'Daniela Castro',
+    'AI-MMM-01-M-25-12800' => 'André Fernandes',
+    'AI-MEL-03-T-24-12800' => 'Daniela Castro',
+    'HT-SDT-01-N-24-12800_' => 'Tatiana Silva',
+    'HT-ETT-04-I-23-12800_' => 'Fernando Santos',
+    'HT-MEC-05-I-23-12800_' => 'Rafael Costa',
+    'HT-AUT-01-N-24-12800_' => 'Marcos Vinicius',
+];
+// --- FIM DA ALTERAÇÃO ---
+
+
 // Funções utilitárias para mapeamento e padronização
 function getAreaUc($curso, $mapping) {
     $curso = trim(strtoupper($curso));
@@ -370,7 +409,7 @@ function normalizeTurno($turno) {
             return 'Noite';
         case 'INTEGRAL':
         case 'TARDE/NOITE':
-            return 'Integral'; // Ou outro termo que você preferir
+            return 'Integral';
         default:
             return 'Indefinido';
     }
@@ -378,35 +417,38 @@ function normalizeTurno($turno) {
 
 // Data de referência (hoje) para turmas em andamento
 $today = new DateTime('2025-07-15');
+$aulasData = [];
 
 foreach ($turmas as $turma) {
-    // Pula turmas sem data de início
     if (empty($turma['data_inicio'])) {
         continue;
     }
 
     $startDate = new DateTime($turma['data_inicio']);
-
-    // Se a data de término estiver vazia, assume que a turma está em andamento até hoje
     $endDate = empty($turma['data_termino']) ? $today : new DateTime($turma['data_termino']);
     
     $interval = new DateInterval('P1D');
     $period = new DatePeriod($startDate, $interval, $endDate->modify('+1 day'));
 
+    // --- INÍCIO DA ALTERAÇÃO ---
+    // Encontra o nome do instrutor a partir do novo array de mapeamento
+    $instrutorNome = $instrutores[$turma['codigo_turma']] ?? 'Instrutor não Atribuído';
+    // --- FIM DA ALTERAÇÃO ---
+
     foreach ($period as $date) {
-        // Pula sábados (6) e domingos (0)
         if ($date->format('w') == 0 || $date->format('w') == 6) {
             continue;
         }
 
-        // Obtém a área e UC usando a função de mapeamento
         $cursoInfo = getAreaUc($turma['curso'], $mapeamento_curso);
 
         $aulasData[] = [
             'date' => $date->format('Y-m-d'),
             'codigoTurma' => $turma['codigo_turma'],
-            'instrutor' => 'Instrutor ' . $turma['id'], // Placeholder
-            'sala' => 'Sala ' . rand(1, 10), // Placeholder
+            // --- INÍCIO DA ALTERAÇÃO ---
+            'instrutor' => $instrutorNome, 
+            // --- FIM DA ALTERAÇÃO ---
+            'sala' => 'Sala ' . rand(1, 10),
             'uc' => $cursoInfo['uc'],
             'turno' => normalizeTurno($turma['turno']),
             'area' => $cursoInfo['area']
@@ -415,8 +457,3 @@ foreach ($turmas as $turma) {
 }
 
 echo json_encode($aulasData, JSON_PRETTY_PRINT);
-
-
-
-
-?>

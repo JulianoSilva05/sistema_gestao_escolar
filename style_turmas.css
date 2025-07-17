@@ -1835,7 +1835,21 @@ body.modal-open {
 
 /* INICIO INSTRUTOR*/
 /* style_instrutores.css */
+/* CSS par ao grafico de pizza*/
+.chart-container {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
 
+.chart-title {
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: #333;
+}
 /* Estilos para o Modal de Detalhes do Instrutor */
 .detalhes-instrutor-container p {
     margin-bottom: 8px;
