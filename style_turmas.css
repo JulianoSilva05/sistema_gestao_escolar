@@ -15,6 +15,7 @@ body {
 .dashboard-container {
     display: flex;
     width: 100%;
+    
 }
 
 /* --- Estilos para o Login (manter caso haja uma página de login separada) --- */
@@ -940,14 +941,7 @@ button[type="submit"]:hover {
     border-radius: 0.75rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     margin-top: 1.5rem;
-     /* Adicionado para fixar o cabeçalho do calendário */
-    position: sticky;
-    top: 0; /* Ajuste conforme a altura do seu main-header se ele também for sticky */
-    background-color: #ffffff; /* Garante que o fundo não seja transparente ao rolar */
-    z-index: 100; /* Garante que fique acima de outros elementos ao rolar */
-    padding-top: 1.5rem; /* Para manter o espaçamento superior ao fixar */
-    padding-bottom: 1.5rem; /* Para manter o espaçamento inferior ao fixar */
-    border-bottom: 1px solid #e5e7eb; /* Uma linha para separar o cabeçalho fixo */
+    
 }
 
 .instructor-calendar-section h2 {
