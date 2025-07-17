@@ -550,7 +550,15 @@ button[type="submit"]:hover {
     border: 1px solid #ccc;
     border-radius: 4px;
 }
-
+/*busca por UC na pagina de gestão de cursos */
+.uc-search-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
 
 /* Opcional: Para melhor responsividade em telas menores */
 @media (max-width: 768px) {

@@ -11,27 +11,15 @@ require_once 'dados_cursos.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestão de Cursos - SENAI</title>
     <link rel="stylesheet" href="style_turmas.css">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome CDN for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-            justify-content: center;
-            align-items: center;
-        }
-    </style>
 </head>
 
 <body>
     <div class="dashboard-container">
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <img src="logo.png" alt="Logo SENAI" class="sidebar-logo">
                 <h3>Menu Principal</h3>
@@ -57,7 +45,7 @@ require_once 'dados_cursos.php';
             </button>
             <header class="main-header">
                 <h1>Gestão de Cursos</h1>
-                <button class="btn btn-primary" onclick="openModal('addCursoModal')"><i class="fas fa-plus-circle"></i>
+                <button class="btn btn-primary" onclick="openAddCursoModal()"><i class="fas fa-plus-circle"></i>
                     Adicionar Novo Curso</button>
             </header>
 
@@ -74,25 +62,12 @@ require_once 'dados_cursos.php';
                                 <th>Carga Horária (h)</th>
                                 <th>Tipo</th>
                                 <th>Categoria</th>
+                                <th>Unidades Curriculares</th> <!-- Nova coluna -->
                                 <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($cursos as $curso) : ?>
-                                <tr>
-                                    <td><?= htmlspecialchars($curso['codigo']) ?></td>
-                                    <td><?= htmlspecialchars($curso['nome']) ?></td>
-                                    <td><?= htmlspecialchars($curso['classificacao']) ?></td>
-                                    <td><?= htmlspecialchars($curso['modalidade']) ?></td>
-                                    <td><?= htmlspecialchars($curso['carga_horaria']) ?></td>
-                                    <td><?= htmlspecialchars($curso['tipo']) ?></td>
-                                    <td><?= htmlspecialchars($curso['categoria']) ?></td>
-                                    <td class="actions">
-                                        <button class="btn btn-icon btn-edit" onclick="editCurso(<?= $curso['id'] ?>)"><i class="fas fa-edit"></i></button>
-                                        <button class="btn btn-icon btn-delete" onclick="deleteCurso(<?= $curso['id'] ?>)"><i class="fas fa-trash-alt"></i></button>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
+                            <!-- Dados serão populados via JavaScript -->
                         </tbody>
                     </table>
                 </div>
@@ -100,6 +75,7 @@ require_once 'dados_cursos.php';
         </main>
     </div>
 
+    <!-- Modal de Adicionar/Editar Curso -->
     <div id="addCursoModal" class="modal">
         <div class="modal-content">
             <span class="close-button" onclick="closeModal('addCursoModal')">&times;</span>
@@ -157,6 +133,18 @@ require_once 'dados_cursos.php';
                     </select>
                 </div>
 
+                <!-- Nova Seção para Unidades Curriculares da Grade -->
+                <div class="uc-selection-section">
+                    <h3>Unidades Curriculares da Grade</h3>
+                    <div id="ucTagsContainer" class="uc-tags-container">
+                        <!-- UCs selecionadas serão exibidas aqui como tags -->
+                    </div>
+                    <input type="text" id="ucSearchInput" class="uc-search-input" placeholder="Buscar Unidade Curricular...">
+                    <div id="ucListForSelection" class="uc-list-container">
+                        <!-- Lista de UCs com checkboxes será gerada aqui -->
+                    </div>
+                </div>
+
                 <button type="submit" class="btn btn-primary">Salvar Curso</button>
                 <button type="button" class="btn btn-secondary" onclick="closeModal('addCursoModal')">Cancelar</button>
             </form>
@@ -164,7 +152,231 @@ require_once 'dados_cursos.php';
     </div>
 
     <script>
-        // Lógica para abrir/fechar modal
+        // Dados iniciais (simulados) - serão carregados via fetch
+        let cursosData = <?php echo json_encode($cursos); ?>;
+        let unidadesCurricularesData = []; // Será preenchido via fetch
+        let nextCursoId = Math.max(...cursosData.map(c => c.id)) + 1;
+
+        // Elementos do DOM
+        const dataTableBody = document.querySelector('.data-table tbody');
+        const addCursoModal = document.getElementById('addCursoModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const cursoForm = document.getElementById('cursoForm');
+        const cursoIdInput = document.getElementById('cursoId');
+        const actionInput = document.getElementById('action');
+        const codigoCursoInput = document.getElementById('codigoCurso');
+        const nomeCursoInput = document.getElementById('nomeCurso');
+        const classificacaoSelect = document.getElementById('classificacao');
+        const modalidadeSelect = document.getElementById('modalidade');
+        const cargaHorariaInput = document.getElementById('cargaHoraria');
+        const tipoCursoSelect = document.getElementById('tipoCurso');
+        const categoriaSelect = document.getElementById('categoria');
+
+        // Elementos da seleção de UC
+        const ucTagsContainer = document.getElementById('ucTagsContainer');
+        const ucSearchInput = document.getElementById('ucSearchInput');
+        const ucListForSelection = document.getElementById('ucListForSelection');
+        let selectedUCs = []; // Array para armazenar as UCs selecionadas para o curso atual
+
+        // --- Funções de Fetch de Dados ---
+        async function fetchUnidadesCurriculares() {
+            try {
+                const response = await fetch('dados_unidades_curriculares.php');
+                if (!response.ok) {
+                    throw new Error(`Erro HTTP! status: ${response.status}`);
+                }
+                unidadesCurricularesData = await response.json();
+                renderUCListForSelection(); // Renderiza a lista de UCs no modal
+            } catch (error) {
+                console.error("Erro ao buscar dados das Unidades Curriculares:", error);
+                ucListForSelection.innerHTML = '<p class="text-red-500">Erro ao carregar UCs. Verifique o servidor PHP.</p>';
+            }
+        }
+
+        // --- Funções de Renderização e Lógica ---
+
+        function updateTableDisplay() {
+            dataTableBody.innerHTML = '';
+            cursosData.forEach(curso => {
+                const row = dataTableBody.insertRow();
+                const ucNames = curso.unidades_curriculares ? curso.unidades_curriculares.map(uc => uc.nome).join(', ') : 'N/A'; // Exibe nomes das UCs
+                row.innerHTML = `
+                    <td>${htmlspecialchars(curso.codigo)}</td>
+                    <td>${htmlspecialchars(curso.nome)}</td>
+                    <td>${htmlspecialchars(curso.classificacao)}</td>
+                    <td>${htmlspecialchars(curso.modalidade)}</td>
+                    <td>${htmlspecialchars(curso.carga_horaria)}</td>
+                    <td>${htmlspecialchars(curso.tipo)}</td>
+                    <td>${htmlspecialchars(curso.categoria)}</td>
+                    <td>${htmlspecialchars(ucNames)}</td>
+                    <td class="actions">
+                        <button class="btn btn-icon btn-edit" onclick="editCurso(${curso.id})"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-icon btn-delete" onclick="deleteCurso(${curso.id})"><i class="fas fa-trash-alt"></i></button>
+                    </td>
+                `;
+            });
+        }
+
+        function openAddCursoModal() {
+            modalTitle.textContent = 'Adicionar Novo Curso';
+            actionInput.value = 'add';
+            cursoIdInput.value = '';
+            cursoForm.reset();
+            selectedUCs = []; // Limpa as UCs selecionadas ao abrir para adicionar
+            renderUCTags();
+            renderUCListForSelection(); // Garante que a lista de seleção esteja atualizada
+            addCursoModal.style.display = 'flex';
+            document.body.classList.add('modal-open');
+        }
+
+        function editCurso(id) {
+            const curso = cursosData.find(c => c.id === id);
+            if (curso) {
+                openModal('addCursoModal');
+                modalTitle.textContent = 'Editar Curso';
+                actionInput.value = 'edit';
+                cursoIdInput.value = curso.id;
+                codigoCursoInput.value = curso.codigo;
+                nomeCursoInput.value = curso.nome;
+                classificacaoSelect.value = curso.classificacao;
+                modalidadeSelect.value = curso.modalidade;
+                cargaHorariaInput.value = curso.carga_horaria;
+                tipoCursoSelect.value = curso.tipo;
+                categoriaSelect.value = curso.categoria;
+
+                selectedUCs = curso.unidades_curriculares ? [...curso.unidades_curriculares] : []; // Carrega UCs existentes
+                renderUCTags();
+                renderUCListForSelection(); // Atualiza checkboxes com base nas UCs carregadas
+            } else {
+                alert('Curso não encontrado.');
+            }
+        }
+
+        function saveCurso(event) {
+            event.preventDefault();
+
+            const id = cursoIdInput.value;
+            const newCurso = {
+                id: id ? parseInt(id) : nextCursoId++,
+                codigo: codigoCursoInput.value,
+                nome: nomeCursoInput.value,
+                classificacao: classificacaoSelect.value,
+                modalidade: modalidadeSelect.value,
+                carga_horaria: parseInt(cargaHorariaInput.value),
+                tipo: tipoCursoSelect.value,
+                categoria: categoriaSelect.value,
+                unidades_curriculares: selectedUCs // Adiciona as UCs selecionadas
+            };
+
+            if (id) {
+                // Editar Curso
+                const index = cursosData.findIndex(c => c.id == id);
+                if (index !== -1) {
+                    cursosData[index] = newCurso;
+                    alert('Curso atualizado com sucesso!');
+                }
+            } else {
+                // Adicionar Novo Curso
+                cursosData.push(newCurso);
+                alert('Curso adicionado com sucesso!');
+            }
+
+            updateTableDisplay();
+            closeModal('addCursoModal');
+        }
+
+        function deleteCurso(id) {
+            if (confirm('Tem certeza que deseja excluir este curso?')) {
+                cursosData = cursosData.filter(c => c.id != id);
+                updateTableDisplay();
+                alert('Curso excluído (simulação).');
+            }
+        }
+
+        // --- Funções de Gestão de Unidades Curriculares no Modal ---
+
+        function renderUCListForSelection() {
+            ucListForSelection.innerHTML = '';
+            const searchTerm = ucSearchInput.value.toLowerCase();
+
+            const filteredUCs = unidadesCurricularesData.filter(uc =>
+                uc.nome.toLowerCase().includes(searchTerm)
+            );
+
+            if (filteredUCs.length === 0) {
+                ucListForSelection.innerHTML = '<p class="text-gray-500">Nenhuma UC encontrada.</p>';
+                return;
+            }
+
+            filteredUCs.forEach(uc => {
+                const isSelected = selectedUCs.some(sUC => sUC.id === uc.id);
+
+                const div = document.createElement('div');
+                div.classList.add('uc-list-item');
+                div.innerHTML = `
+                    <input type="checkbox" id="uc-${uc.id}" value="${uc.id}" ${isSelected ? 'checked' : ''}>
+                    <label for="uc-${uc.id}">${htmlspecialchars(uc.nome)}</label>
+                    <span>(${uc.carga_horaria}h)</span>
+                `;
+                ucListForSelection.appendChild(div);
+
+                // Adiciona listener ao checkbox
+                div.querySelector('input[type="checkbox"]').addEventListener('change', (event) => {
+                    if (event.target.checked) {
+                        // Adiciona UC se ainda não estiver na lista de selecionadas
+                        if (!selectedUCs.some(sUC => sUC.id === uc.id)) {
+                            selectedUCs.push(uc);
+                        }
+                    } else {
+                        // Remove UC da lista de selecionadas
+                        selectedUCs = selectedUCs.filter(sUC => sUC.id !== uc.id);
+                    }
+                    renderUCTags(); // Atualiza as tags exibidas
+                });
+            });
+        }
+
+        function renderUCTags() {
+            ucTagsContainer.innerHTML = '';
+            if (selectedUCs.length === 0) {
+                ucTagsContainer.innerHTML = '<p class="text-gray-500 text-sm italic">Nenhuma UC selecionada.</p>';
+                return;
+            }
+            selectedUCs.forEach(uc => {
+                const span = document.createElement('span');
+                span.classList.add('uc-tag');
+                span.innerHTML = `
+                    ${htmlspecialchars(uc.nome)}
+                    <button type="button" class="remove-uc-tag" data-uc-id="${uc.id}">&times;</button>
+                `;
+                ucTagsContainer.appendChild(span);
+
+                span.querySelector('.remove-uc-tag').addEventListener('click', (event) => {
+                    const ucIdToRemove = parseInt(event.target.dataset.ucId);
+                    selectedUCs = selectedUCs.filter(sUC => sUC.id !== ucIdToRemove);
+                    renderUCTags(); // Atualiza as tags
+                    renderUCListForSelection(); // Desmarca o checkbox na lista de seleção
+                });
+            });
+        }
+
+        // Função auxiliar para escapar HTML
+        function htmlspecialchars(str) {
+            const div = document.createElement('div');
+            div.appendChild(document.createTextNode(str));
+            return div.innerHTML;
+        }
+
+        // --- Event Listeners Globais ---
+        document.addEventListener('DOMContentLoaded', () => {
+            updateTableDisplay();
+            fetchUnidadesCurriculares(); // Carrega as UCs ao carregar a página
+        });
+
+        cursoForm.addEventListener('submit', saveCurso);
+        ucSearchInput.addEventListener('input', renderUCListForSelection); // Filtra a lista de UCs ao digitar
+
+        // Lógica para abrir/fechar modal (ajustada para a nova função openAddCursoModal)
         function openModal(modalId) {
             document.getElementById(modalId).style.display = 'flex';
             document.body.classList.add('modal-open');
@@ -177,36 +389,8 @@ require_once 'dados_cursos.php';
             document.getElementById('modalTitle').textContent = 'Adicionar Novo Curso';
             document.getElementById('action').value = 'add';
             document.getElementById('cursoId').value = '';
-        }
-        
-        function editCurso(id) {
-            // Em um cenário real, você faria uma requisição AJAX para buscar os dados do curso com esse ID
-            // Aqui, estamos simulando a busca
-            const cursosData = <?php echo json_encode($cursos); ?>;
-            const curso = cursosData.find(c => c.id === id);
-
-            if (curso) {
-                openModal('addCursoModal');
-                document.getElementById('modalTitle').textContent = 'Editar Curso';
-                document.getElementById('action').value = 'edit';
-                document.getElementById('cursoId').value = curso.id;
-                document.getElementById('codigoCurso').value = curso.codigo;
-                document.getElementById('nomeCurso').value = curso.nome;
-                document.getElementById('classificacao').value = curso.classificacao;
-                document.getElementById('modalidade').value = curso.modalidade;
-                document.getElementById('cargaHoraria').value = curso.carga_horaria;
-                document.getElementById('tipoCurso').value = curso.tipo;
-                document.getElementById('categoria').value = curso.categoria;
-            } else {
-                alert('Curso não encontrado.');
-            }
-        }
-
-        function deleteCurso(id) {
-            if (confirm('Tem certeza que deseja excluir este curso?')) {
-                // Em um cenário real, você enviaria uma requisição para o servidor para excluir o curso
-                alert('Curso com ID ' + id + ' excluído (simulação).');
-            }
+            selectedUCs = []; // Limpa as UCs selecionadas ao fechar
+            renderUCTags(); // Atualiza as tags para refletir a limpeza
         }
 
         window.onclick = function(event) {
@@ -215,23 +399,19 @@ require_once 'dados_cursos.php';
                 closeModal('addCursoModal');
             }
         }
-    </script>
-    <script>
-        const menuToggle = document.getElementById('menu-toggle');
-        const sidebar = document.querySelector('.sidebar');
-        const dashboardContainer = document.querySelector('.dashboard-container');
 
-        // Função para abrir/fechar o menu
+        // Menu Toggle para Mobile
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+
         menuToggle.addEventListener('click', () => {
             sidebar.classList.toggle('active');
-            dashboardContainer.classList.toggle('sidebar-active');
         });
 
-        // Função para fechar o menu ao clicar fora dele
-        dashboardContainer.addEventListener('click', (event) => {
-            if (dashboardContainer.classList.contains('sidebar-active') && !sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
+        // Fechar o menu ao clicar fora dele em telas menores
+        document.addEventListener('click', (event) => {
+            if (window.innerWidth <= 768 && sidebar.classList.contains('active') && !sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
                 sidebar.classList.remove('active');
-                dashboardContainer.classList.remove('sidebar-active');
             }
         });
     </script>
