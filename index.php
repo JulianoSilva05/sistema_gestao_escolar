@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - SENAI</title>
+        <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="login-container">
-        <img src="logo_azul.png" alt="Logo SENAI" class="senai-logo">
+        <img src="logo_azul.png" alt="Logo" class="senai-logo">
         <form action="login.php" method="POST">
             <div class="input-group">
                 <label for="username">Usuário:</label>

@@ -2,7 +2,7 @@
 session_start(); // Inicia a sessão para armazenar informações de login
 
 // Define as credenciais corretas
-$usuario_correto = "instrutor_senai";
+$usuario_correto = "instrutor";
 $senha_correta = "12345"; // Em um sistema real, use password_hash() para senhas!
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

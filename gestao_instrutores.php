@@ -25,7 +25,7 @@ function formatarData($data)
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestão de Instrutores - SENAI</title>
-        <!-- Tailwind CSS CDN -->
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style_turmas.css">
     <link rel="stylesheet" href="style_instrutores.css">
