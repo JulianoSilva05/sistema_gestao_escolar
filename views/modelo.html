@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard SENAI</title>
+    <link rel="stylesheet" href="dash_style.css">
+    <link rel="stylesheet" href="style_turmas.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body class="modal-open">
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="logo.png" alt="SENAI Logo" class="sidebar-logo">
+                <h3>Gestão SENAI</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="#"><i class="fas fa-users"></i> Alunos</a></li>
+                    <li><a href="#"><i class="fas fa-chalkboard-teacher"></i> Instrutores</a></li>
+                    <li><a href="#"><i class="fas fa-book"></i> Cursos</a></li>
+                    <li><a href="#"><i class="fas fa-user-graduate"></i> Turmas</a></li>
+                    <li><a href="#" class="logout"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <div class="main-header">
+                <h1>Título da Página</h1>
+                <button class="btn btn-primary"><i class="fas fa-plus"></i> Adicionar Novo</button>
+            </div>
+
+            <section class="kpis">
+                <div class="kpi-card">
+                    <h3>Total de Instrutores</h3>
+                    <p>50</p>
+                </div>
+                <div class="kpi-card">
+                    <h3>Turmas Ativas</h3>
+                    <p>15</p>
+                </div>
+            </section>
+
+            <section class="table-section">
+                <h2>Lista de Itens</h2>
+                <div class="filter-section">
+                    <label for="searchInput">Pesquisar:</label>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Pesquisar por nome...">
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Exemplo de Item 1</td>
+                                <td class="actions">
+                                    <button class="btn btn-icon btn-edit"><i class="fas fa-edit"></i></button>
+                                    <button class="btn btn-icon btn-delete"><i class="fas fa-trash-alt"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <div id="instrutorModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-button">&times;</span>
+                    <h2 id="modalTitle">Adicionar Novo Instrutor</h2>
+                    <form id="instrutorForm">
+                        <div class="form-group">
+                            <label for="instrutorNome">Nome:</label>
+                            <input type="text" id="instrutorNome" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="instrutorEmail">Email:</label>
+                            <input type="email" id="instrutorEmail" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                        <button type="button" class="btn btn-secondary close-modal">Cancelar</button>
+                    </form>
+                </div>
+            </div>
+
+            <div id="detalhesInstrutorModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-button">&times;</span>
+                    <h2>Detalhes do Instrutor</h2>
+                    <div class="detalhes-instrutor-container">
+                        <p><strong>ID:</strong> <span id="detalhesId"></span></p>
+                        <p><strong>Nome:</strong> <span id="detalhesNome"></span></p>
+                        <p><strong>Email:</strong> <span id="detalhesEmail"></span></p>
+
+                        <h3>Turmas Associadas</h3>
+                        <div class="turmas-associadas-list" id="detalhesTurmas">
+                        </div>
+
+                        <div class="add-turma-form">
+                            <label for="addTurmaToInstrutorSelect">Associar Nova Turma:</label>
+                            <select id="addTurmaToInstrutorSelect">
+                            </select>
+                            <button class="btn btn-primary btn-add-small" id="btnAssociarTurma">Associar</button>
+                        </div>
+
+                        <h3>Histórico de Aulas Ministradas</h3>
+                        <div class="historico-aulas-list" id="detalhesHistoricoAulas">
+                            <ul>
+                            </ul>
+                        </div>
+
+                        <div class="add-aula-form">
+                            <h4>Registrar Nova Aula</h4>
+                            <input type="hidden" id="aulaInstrutorIdInput">
+                            <label for="aulaDataInput">Data:</label>
+                            <input type="date" id="aulaDataInput">
+                            <label for="aulaUnidadeCurricularInput">Unidade Curricular:</label>
+                            <input type="text" id="aulaUnidadeCurricularInput" placeholder="Ex: Programação Web">
+                            <label for="aulaTurmaCodigoInput">Turma:</label>
+                            <input type="text" id="aulaTurmaCodigoInput" placeholder="Ex: A123">
+                            <label for="aulaHorasInput">Horas:</label>
+                            <input type="number" id="aulaHorasInput" placeholder="Ex: 4">
+                            <button class="btn btn-primary btn-add-small" id="btnRegistrarAula">Registrar Aula</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        document.querySelectorAll('.close-button, .close-modal').forEach(button => {
+            button.onclick = (e) => {
+                const modal = e.target.closest('.modal');
+                if (modal) {
+                    modal.style.display = 'none';
+                    document.body.classList.remove('modal-open');
+                }
+            };
+        });
+
+        // Fechar modal clicando fora
+        window.onclick = (event) => {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+                document.body.classList.remove('modal-open');
+            }
+        };
+    </script>
+</body>
+
+</html>
